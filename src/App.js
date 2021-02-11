@@ -3,7 +3,6 @@ import './App.css';
 import jss from 'jss';
 import { ThemeProvider } from 'theming';
 
-
 function App() {
    return (
       <Router>
