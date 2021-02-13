@@ -1,13 +1,5 @@
 import React, { useContext, createContext, useState } from "react";
-import {
-   BrowserRouter as Router,
-   Switch,
-   Route,
-   Link,
-   Redirect,
-   useHistory,
-   useLocation
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory, useLocation } from "react-router-dom";
 import { config } from '../config';
 
 /** For more details on
@@ -29,17 +21,24 @@ function useAuth() {
    return useContext(authContext);
 }
 
+const AUTH_PENDING = 'AUTH_PENDING';
+const AUTH_AUTHORIZED = 'AUTH_AUTHORIZED';
+const AUTH_NOT_AUTHORIZED = 'AUTH_NOT_AUTHORIZED';
+
 function useAuthProvider() {
-   const [isAuthenticated, setAuthenticated] = useState(checkAuthStatus());
-   const [tokenExpires, setTokenExpires] = useState(null);
+   const [authStatus, setAuthStatus] = useState(AUTH_PENDING);
 
-   const checkAuthStatus = () => {
-      return(localStorage.getItem('authToken') && localStorage.getItem('authTokenExpires'));
-   }
+   useEffect(() => {
+      setTimeout(() => {
+         setUser('timeoutedUser');
+         setAuthStatus(AUTH_AUTHORIZED);
+      }, 5000);
+   }, []);
 
-   const saveLocalstorage = (token, expiresDate) => {
+   const saveLocalstorage = (token, expiresDate, refreshToken) => {
       localStorage.setItem('authToken', token);
       localStorage.setItem('authTokenExpires', expiresDate);
+      localStorage.setItem('refreshToken', refreshToken);
    }
 
    const clearLocalstorage = () => {
@@ -49,28 +48,73 @@ function useAuthProvider() {
 
    const logout = () => {
       clearLocalstorage();
-      setAuthenticated(false);
+      setAuthStatus(AUTH_NOT_AUTHORIZED);
    };
 
    const login = (login, pass) => {
       return fetch(config.apiPath + '/login', {
          method: 'POST',
-         headers: {'Content-Type': 'application/json'},
-         body: {'email': login, 'password': pass}
+         headers: { 'Content-Type': 'application/json' },
+         body: { 'email': login, 'password': pass }
       }).then(resp => {
-         if (!resp.ok) logout();
+         if (!resp.ok) return logout();
          return resp.json();
       }).then(json => {
-         setTokenExpires(json.tokenExpires);
-         saveLocalstorage(json.token, json.tokenExpires)
+         saveLocalstorage(json.token, json.tokenExpires, json.refreshToken);
       });
    };
 
+   /*проверяет что токен существует и не истек и возвращает его. если токен истек, рефрешит и возвращает*/
+   const getToken = () => {
+      //должен быть явный return new Promise(...)
+      /* текущая дата: var currentDate = new Date().toUTCString()
+         дата с сервера: var serverDate = new Date(fromServer).toUTCString();
+         сравниваем: currentDate < serverDate
+      */
+
+      //TODO: вынести в отдельную функцию
+      const currentDate = new Date(new Date().toUTCString());
+      const expiresDate = new Date(new Date(localStorage.getItem('authTokenExpires')).toUTCString());
+      const token = localStorage.getItem('authToken');
+      if (currentDate < expiresDate) return token;
+      else {
+         return refreshToken(token);
+      }
+   }
+
+   const refreshToken = (refreshToken) => {
+      return fetch(config.apiPath + '/login', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: { 'refresh_token': refreshToken }
+      }).then(resp => {
+         if (!resp.ok) return resp.json();
+         else return logout();
+      }).then(json => {
+         let {response} = json;
+         saveLocalstorage(respose.token, response.tokenExpires, response.refreshToken);
+         return response.token;
+      });
+   }
+
+   const checkToken = async (token) => {
+      return fetch(config.apiPath + '/token/check', {
+         method: 'GET',
+         headers: {'authorization': token}
+      }).then(resp => {
+         if (!resp.ok) await refreshToken();
+         return resp.json();
+      }).then(
+
+      );
+   };
+
+   //ВАЖНО! в каждом ответе данные дополнительно завернуты в объект response т.е. получать их надо так: resp.json() => res.response()
    return {
+      authStatus,
       login,
       logout,
-      tokenExpires,
-      isAuthenticated
+      getToken
    };
 }
 
