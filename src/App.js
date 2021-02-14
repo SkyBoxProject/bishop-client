@@ -2,57 +2,51 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import './App.css';
 import jss from 'jss';
 import { ThemeProvider } from 'theming';
+import { AuthProvider, PrivateRoute } from './providers/AuthProvider';
+import { LoginPage } from './resources/LoginPage';
+import { Layout } from './layout/Layout';
 
 function App() {
    return (
-      <Router>
-         <div className="test">
-            <div className="test">init</div>
-         </div>
+      <AuthProvider>
+         <Router>
+            
+            <Switch>
+               <PrivateRoute path="/login">
+                  <LoginPage />
+               </PrivateRoute>
+               <PrivateRoute path="/about">
+                  <About />
+               </PrivateRoute>
+               <PrivateRoute path="/users">
+                  <Users />
+               </PrivateRoute>
+               <PrivateRoute path="/">
+                  <Home />
+               </PrivateRoute>
+            </Switch>
 
-         <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/users">Users</Link>
-            </li>
-            <li>
-               <a href="/test">Test</a>
-            </li>
-          </ul>
-        </nav>
-
-         <Switch>
-            <Route path="/about">
-               <About />
-            </Route>
-            <Route path="/users">
-               <Users />
-            </Route>
-            <Route path="/">
-               <Home />
-            </Route>
-         </Switch>
-
-      </Router>
+         </Router>
+      </AuthProvider>
    );
 }
 
 function Home() {
-   return <h2>Home</h2>;
- }
- 
- function About() {
-   return <h2>About</h2>;
- }
- 
- function Users() {
-   return <h2>Users</h2>;
- }
+   return <Layout>
+      <h2>Home</h2>
+   </Layout>;
+}
+
+function About() {
+   return <Layout>
+      <h2>About</h2>
+   </Layout>;
+}
+
+function Users() {
+   return <Layout>
+      <h2>Users</h2>
+   </Layout>;
+}
 
 export default App;
