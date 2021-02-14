@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useState } from "react";
+import React, { useContext, createContext, useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory, useLocation } from "react-router-dom";
 import { config } from '../config';
 
@@ -29,10 +29,15 @@ function useAuthProvider() {
    const [authStatus, setAuthStatus] = useState(AUTH_PENDING);
 
    useEffect(() => {
-      setTimeout(() => {
-         setUser('timeoutedUser');
+      //MOCK, заглушка для успешной авторизации
+      setTimeout(()=>{
          setAuthStatus(AUTH_AUTHORIZED);
-      }, 5000);
+      }, 1500);
+      return;
+
+      getToken().then(token => {
+         if (token) setAuthStatus(AUTH_AUTHORIZED);
+      });
    }, []);
 
    const saveLocalstorage = (token, expiresDate, refreshToken) => {
@@ -64,49 +69,55 @@ function useAuthProvider() {
       });
    };
 
-   /*проверяет что токен существует и не истек и возвращает его. если токен истек, рефрешит и возвращает*/
-   const getToken = () => {
-      //должен быть явный return new Promise(...)
-      /* текущая дата: var currentDate = new Date().toUTCString()
-         дата с сервера: var serverDate = new Date(fromServer).toUTCString();
-         сравниваем: currentDate < serverDate
-      */
-
-      //TODO: вынести в отдельную функцию
-      const currentDate = new Date(new Date().toUTCString());
-      const expiresDate = new Date(new Date(localStorage.getItem('authTokenExpires')).toUTCString());
-      const token = localStorage.getItem('authToken');
-      if (currentDate < expiresDate) return token;
-      else {
-         return refreshToken(token);
-      }
-   }
-
-   const refreshToken = (refreshToken) => {
+   const getNewToken = (refreshToken) => {
       return fetch(config.apiPath + '/login', {
          method: 'POST',
          headers: { 'Content-Type': 'application/json' },
          body: { 'refresh_token': refreshToken }
       }).then(resp => {
          if (!resp.ok) return resp.json();
-         else return logout();
+         else {
+            logout();
+            throw new Error('Refresh token error');
+         }
       }).then(json => {
-         let {response} = json;
-         saveLocalstorage(respose.token, response.tokenExpires, response.refreshToken);
+         let { response } = json;
+         saveLocalstorage(response.token, response.tokenExpires, response.refreshToken);
          return response.token;
       });
+   }
+
+   /*проверяет что токен существует и не истек и возвращает его. если токен истек, рефрешит и возвращает*/
+   const getToken = async () => {
+      //должен быть явный return new Promise(...)
+      /* текущая дата: var currentDate = new Date().toUTCString()
+         дата с сервера: var serverDate = new Date(fromServer).toUTCString();
+         сравниваем: currentDate < serverDate
+      */
+      let token = localStorage.getItem('authToken');
+      let tokenExpiresDate = localStorage.getItem('authTokenExpires');
+      let refreshToken = localStorage.getItem('refreshToken');
+      if (token && expiresDate && refreshToken) {
+         logout();
+         throw new Error('Token does not exist');
+      }
+
+      //TODO: вынести в отдельную функцию
+      const currentDate = new Date(new Date().toUTCString());
+      const expiresDate = new Date(new Date(tokenExpiresDate).toUTCString());
+      if (currentDate < expiresDate) return token;
+      else {
+         return await getNewToken(refreshToken);
+      };
    }
 
    const checkToken = async (token) => {
       return fetch(config.apiPath + '/token/check', {
          method: 'GET',
-         headers: {'authorization': token}
+         headers: { 'authorization': token }
       }).then(resp => {
-         if (!resp.ok) await refreshToken();
          return resp.json();
-      }).then(
-
-      );
+      });
    };
 
    //ВАЖНО! в каждом ответе данные дополнительно завернуты в объект response т.е. получать их надо так: resp.json() => res.response()
@@ -122,7 +133,7 @@ function AuthButton() {
    let history = useHistory();
    let auth = useAuth();
 
-   return auth.user ? (
+   return auth.authStatus === AUTH_AUTHORIZED ? (
       <p>
          Welcome!{" "}
          <button
@@ -138,15 +149,22 @@ function AuthButton() {
       );
 }
 
+function FullscreenLoader(props) {
+   return <div style={{background: '#e7ebef', position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      <span>loading...</span>
+   </div>
+}
+
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
-function PrivateRoute({ children, ...rest }) {
+export function PrivateRoute({ children, ...rest }) {
    let auth = useAuth();
+   if (auth.authStatus === AUTH_PENDING) return <FullscreenLoader/>
    return (
       <Route
          {...rest}
          render={({ location }) =>
-            auth.user ? (
+            auth.authStatus === AUTH_AUTHORIZED ? (
                children
             ) : (
                   <Redirect
