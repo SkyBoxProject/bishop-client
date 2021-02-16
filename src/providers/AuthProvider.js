@@ -29,12 +29,6 @@ function useAuthProvider() {
    const [authStatus, setAuthStatus] = useState(AUTH_PENDING);
 
    useEffect(() => {
-      //MOCK, заглушка для успешной авторизации
-      setTimeout(()=>{
-         setAuthStatus(AUTH_AUTHORIZED);
-      }, 1500);
-      return;
-
       getToken().then(token => {
          if (token) setAuthStatus(AUTH_AUTHORIZED);
       });
@@ -57,7 +51,7 @@ function useAuthProvider() {
    };
 
    const login = (login, pass) => {
-      return fetch(config.apiPath + '/login', {
+      return fetch(config.apiPath + 'login', {
          method: 'POST',
          headers: { 'Content-Type': 'application/json' },
          body: { 'email': login, 'password': pass }
@@ -69,46 +63,45 @@ function useAuthProvider() {
       });
    };
 
-   const getNewToken = (refreshToken) => {
-      return fetch(config.apiPath + '/login', {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: { 'refresh_token': refreshToken }
-      }).then(resp => {
-         if (!resp.ok) return resp.json();
-         else {
-            logout();
-            throw new Error('Refresh token error');
+   const getNewToken = async (refreshToken) => {
+      try {
+         const response =  fetch(config.apiPath + 'login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 'refresh_token': refreshToken })
+         });
+
+         if (!response.ok) {
+            throw new Error('Ответ сети был не ok.');
          }
-      }).then(json => {
-         let { response } = json;
-         saveLocalstorage(response.token, response.tokenExpires, response.refreshToken);
+
+         const json = await response.json();
+         const data = json.response;
+         saveLocalstorage(data.token, data.tokenExpires, data.refreshToken);
          return response.token;
-      });
+      } catch(err) {
+         logout();
+      }
    }
 
    /*проверяет что токен существует и не истек и возвращает его. если токен истек, рефрешит и возвращает*/
    const getToken = async () => {
-      //должен быть явный return new Promise(...)
-      /* текущая дата: var currentDate = new Date().toUTCString()
-         дата с сервера: var serverDate = new Date(fromServer).toUTCString();
-         сравниваем: currentDate < serverDate
-      */
-      let token = localStorage.getItem('authToken');
-      let tokenExpiresDate = localStorage.getItem('authTokenExpires');
-      let refreshToken = localStorage.getItem('refreshToken');
-      if (token && expiresDate && refreshToken) {
+      try {
+         let token = localStorage.getItem('authToken');
+         let tokenExpiresDate = localStorage.getItem('authTokenExpires');
+         let refreshToken = localStorage.getItem('refreshToken');
+         if (!token && !tokenExpiresDate && !refreshToken) {
+            throw new Error('Token does not exist');
+         }
+         const currentDate = new Date(new Date().toUTCString());
+         const expiresDate = new Date(new Date(tokenExpiresDate).toUTCString());
+         if (currentDate < expiresDate) return token;
+         else {
+            return await getNewToken(refreshToken);
+         };
+      } catch (err) {
          logout();
-         throw new Error('Token does not exist');
       }
-
-      //TODO: вынести в отдельную функцию
-      const currentDate = new Date(new Date().toUTCString());
-      const expiresDate = new Date(new Date(tokenExpiresDate).toUTCString());
-      if (currentDate < expiresDate) return token;
-      else {
-         return await getNewToken(refreshToken);
-      };
    }
 
    const checkToken = async (token) => {
@@ -150,7 +143,7 @@ function AuthButton() {
 }
 
 function FullscreenLoader(props) {
-   return <div style={{background: '#e7ebef', position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+   return <div style={{ background: '#e7ebef', position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <span>loading...</span>
    </div>
 }
@@ -159,7 +152,7 @@ function FullscreenLoader(props) {
 // screen if you're not yet authenticated.
 export function PrivateRoute({ children, ...rest }) {
    let auth = useAuth();
-   if (auth.authStatus === AUTH_PENDING) return <FullscreenLoader/>
+   if (auth.authStatus === AUTH_PENDING) return <FullscreenLoader />
    return (
       <Route
          {...rest}
@@ -167,12 +160,13 @@ export function PrivateRoute({ children, ...rest }) {
             auth.authStatus === AUTH_AUTHORIZED ? (
                children
             ) : (
-                  <Redirect
-                     to={{
-                        pathname: "/login",
-                        state: { from: location }
-                     }}
-                  />
+                  location.pathname !== '/login' ?
+                     <Redirect
+                        to={{
+                           pathname: "/login",
+                           state: { from: location }
+                        }}
+                     /> : ''
                )
          }
       />
