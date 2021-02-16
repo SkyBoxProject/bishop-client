@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import './App.css';
-import jss from 'jss';
-import { ThemeProvider } from 'theming';
+import {createUseStyles, useTheme, ThemeProvider} from 'react-jss';
+import {theme} from './themes/mainTheme';
 import { AuthProvider, PrivateRoute } from './providers/AuthProvider';
 import { LoginPage } from './resources/LoginPage';
 import { Layout } from './layout/Layout';
@@ -9,12 +9,14 @@ import { Layout } from './layout/Layout';
 function App() {
    return (
       <AuthProvider>
+         <ThemeProvider theme={theme}>
+
          <Router>
             
             <Switch>
-               <PrivateRoute path="/login">
+               <Route path="/login">
                   <LoginPage />
-               </PrivateRoute>
+               </Route>
                <PrivateRoute path="/about">
                   <About />
                </PrivateRoute>
@@ -27,6 +29,8 @@ function App() {
             </Switch>
 
          </Router>
+
+         </ThemeProvider>
       </AuthProvider>
    );
 }
