@@ -22,29 +22,32 @@ const useStyles = createUseStyles(theme => ({
    }
 }));
 
-export function LoginPage(props) {
+export function RegistrationPage(props) {
    const classes = useStyles();
    const history = useHistory();
+   const [response, setResponse] = useState('');
 
-   const redirectToRegistration = () => {
-      history.push('/registration');
+   const backToLogin = () => {
+      history.push('/login');
    }
 
    return <div className={classes.wrapper}>
       <div className={classes.loginCard}>
-         <h1 style={{fontWeight: 300}}>Bishop: вход в сервис</h1>
+         <h1 style={{fontWeight: 300}}>Bishop: регистрация</h1>
 
          <Input placeholder="Эл.почта" />
          <Input placeholder="Пароль" />
 
+         <p>{response}</p>
+
          <div style={{marginTop: '10px'}}>
-            <Button fullWidth>Войти</Button>
+            <Button fullWidth>Зарегистрироваться</Button>
             <Divider />
-            <Button fullWidth onClick={redirectToRegistration}>Регистрация</Button>
+            <Button fullWidth onClick={backToLogin}>Назад ко входу</Button>
          </div>
 
       </div>
    </div>
 }
 
-export default LoginPage;
+export default RegistrationPage;
