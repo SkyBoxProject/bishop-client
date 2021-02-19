@@ -4,6 +4,7 @@ import {Button} from '../components/Button';
 import {Input} from '../components/Input';
 import {Divider} from '../components/Divider';
 import { useHistory } from "react-router";
+import { Form } from 'react-final-form';
 
 const useStyles = createUseStyles(theme => ({
    wrapper: {
@@ -37,6 +38,7 @@ export function RegistrationPage(props) {
 
          <Input placeholder="Эл.почта" />
          <Input placeholder="Пароль" />
+         <Input placeholder="Повторите пароль" />
 
          <p>{response}</p>
 
