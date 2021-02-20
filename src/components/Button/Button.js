@@ -16,6 +16,13 @@ const useStyles = createUseStyles(theme => ({
       cursor: 'pointer',
       '&:hover': {
          filter: 'brightness(90%)'
+      },
+      '&:focus': {
+         boxShadow: `0 0 0 3px ${theme.colorPrimary + '42'}`,
+         outlineColor: 'rgba(0,0,0,0)',
+         outlineOffset: '2px',
+         outlineStyle: 'solid',
+         borderColor: theme.colorPrimary
       }
    },
    fullWidth: {

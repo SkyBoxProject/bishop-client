@@ -20,7 +20,7 @@ export function Bsod(props) {
    return <div className={classes.wrapper}>
       <p>A problem has been detected and Windows has been shut down to prevent damage to your computer.</p>
       <p>ÖÆÅÂàðýĂòćÑĦĩķĠĎĬİ</p>
-      <p>СЛY4UЛАСЬ_СТРАШНАЯ_ХYЙНЯ</p>
+      <p>CЛY4UЛACЬ_CTPAШHAЯ_ХYЙНЯ</p>
       <p>ĦĩķĠĎýĂòćÑĦĩķĠĎĬİ òćÑĦĩ ĠĎýĂòćÑĦĩķĠ ĦĩķĠĎýĂòćÑĦ</p>
       <p>If this is the first time you’ve seen this stop error screen, restart your computer. If this screen appears again, follow these steps:</p>
       <p>Check to be sure you have adequate disk space. If a driver is identified in the stop massage, disable the driver or check with the manufacturer for driver updates. Try changing video adapters.</p>

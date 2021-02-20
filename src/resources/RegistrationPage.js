@@ -7,8 +7,18 @@ import { useHistory } from "react-router";
 import { Form } from 'react-final-form';
 
 const useStyles = createUseStyles(theme => ({
+   '@keyframes slideRight': {
+      from: {
+         opacity: 0,
+         transform: 'translateX(-30px) scale(0.98)'
+      },
+      to: {
+         opacity: 1,
+         transform: 'translateX(0px) scale(1)'
+      }
+    },
    wrapper: {
-      background: '#e5e7eb', //#f7fafc
+      background: '#f7fafc', //#f7fafc
       maxWidth: '100vw',
       height: '100vh',
       display: 'flex',
@@ -16,7 +26,8 @@ const useStyles = createUseStyles(theme => ({
       alignItems: 'center'
    },
    loginCard: {
-      boxShadow: '0 0 #0000,0 0 #0000,0 0 #0000,0 0 #0000,0 4px 6px -1px rgba(0, 0, 0, 0.1),0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+      animation: '$slideRight ease-in 0.3s',
+      boxShadow: '0 2px 20px 3px rgb(0 0 0 / 6%)',
       background: '#fff',
       width: '410px',
       padding: '2rem',
