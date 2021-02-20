@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { createUseStyles } from 'react-jss'
-import {Button} from '../components/Button';
-import {Input} from '../components/Input';
-import {Divider} from '../components/Divider';
+import { Button } from '../components/Button';
+import { Input } from '../components/Input';
+import { Divider } from '../components/Divider';
 import { useHistory } from "react-router";
 import { Form } from 'react-final-form';
+import { FaChessBishop } from "react-icons/fa";
 
 const useStyles = createUseStyles(theme => ({
    '@keyframes slideRight': {
@@ -16,7 +17,7 @@ const useStyles = createUseStyles(theme => ({
          opacity: 1,
          transform: 'translateX(0px) scale(1)'
       }
-    },
+   },
    wrapper: {
       background: '#f7fafc', //#f7fafc
       maxWidth: '100vw',
@@ -45,7 +46,12 @@ export function RegistrationPage(props) {
 
    return <div className={classes.wrapper}>
       <div className={classes.loginCard}>
-         <h1 style={{fontWeight: 300}}>Bishop: регистрация</h1>
+         <div style={{ display: 'flex', alignItems: 'center', fontWeight: 100, marginBottom: '25px' }}>
+            <FaChessBishop style={{ marginRight: '10px', fontSize: '1.3em', color: '#83afe0' }} />
+            <span>Bishop converter</span>
+         </div>
+         
+         <h1 style={{ fontWeight: 600, fontSize: '1.6em', color: '#2B3044' }}>Регистрация</h1>
 
          <Input placeholder="Эл.почта" />
          <Input placeholder="Пароль" />
@@ -53,7 +59,7 @@ export function RegistrationPage(props) {
 
          <p>{response}</p>
 
-         <div style={{marginTop: '10px'}}>
+         <div style={{ marginTop: '10px' }}>
             <Button fullWidth>Зарегистрироваться</Button>
             <Divider />
             <Button fullWidth onClick={backToLogin}>Назад ко входу</Button>
