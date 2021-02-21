@@ -1,6 +1,7 @@
 import React, { useContext, createContext, useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory, useLocation } from "react-router-dom";
+import { Route, Redirect, useLocation } from "react-router-dom";
 import { config } from '../config';
+import { useHistory } from "react-router";
 
 /** For more details on
  * `authContext`, `ProvideAuth`, `useAuth` and `useProvideAuth`
@@ -17,7 +18,7 @@ export function AuthProvider({ children }) {
    );
 }
 
-function useAuth() {
+export function useAuth() {
    return useContext(authContext);
 }
 
@@ -50,17 +51,21 @@ function useAuthProvider() {
       setAuthStatus(AUTH_NOT_AUTHORIZED);
    };
 
-   const login = (login, pass) => {
-      return fetch(config.apiPath + 'login', {
+   const login = async (login, pass) => {
+      const response = await fetch(config.apiPath + 'login', {
          method: 'POST',
          headers: { 'Content-Type': 'application/json' },
-         body: { 'email': login, 'password': pass }
-      }).then(resp => {
-         if (!resp.ok) return logout();
-         return resp.json();
-      }).then(json => {
-         saveLocalstorage(json.token, json.tokenExpires, json.refreshToken);
+         body: JSON.stringify({ 'email': login, 'password': pass })
       });
+
+      if (!response.ok) {
+         return logout();
+      }
+
+      const json = await response.json();
+      const body = json.response;
+      saveLocalstorage(body.token, body.tokenExpires, body.refreshToken);
+      setAuthStatus(AUTH_AUTHORIZED);
    };
 
    const getNewToken = async (refreshToken) => {

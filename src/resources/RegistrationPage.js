@@ -8,6 +8,8 @@ import { Form, Field } from 'react-final-form';
 import { FaChessBishop } from "react-icons/fa";
 import { Alert } from '../components/Alert';
 import { config } from '../config';
+import { useAuth } from '../providers/AuthProvider';
+import {Redirect} from "react-router-dom";
 
 const useStyles = createUseStyles(theme => ({
    '@keyframes slideRight': {
@@ -41,6 +43,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 export function RegistrationPage(props) {
+   const auth = useAuth();
    const classes = useStyles();
    const history = useHistory();
    const [response, setResponse] = useState(''); //ответ от сервера, по сути статус нашей формы. если не пуст, значит мы зарегались
@@ -78,6 +81,7 @@ export function RegistrationPage(props) {
       return undefined;
    }
 
+   if (auth.authStatus === 'AUTH_AUTHORIZED') return <Redirect to="/" />
    return <div className={classes.wrapper}>
       <div className={classes.loginCard}>
          {isLoading ? <div style={{position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%', top: 0, left: 0, background: 'linear-gradient(46deg, #c7d2fe, transparent)'}}><span>Пожалуйста подождите...</span></div> : ''}

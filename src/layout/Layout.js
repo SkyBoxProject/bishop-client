@@ -1,7 +1,10 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {useAuth} from '../providers/AuthProvider';
 
 export function Layout(props) {
+   const auth = useAuth();
+
    return <div>
 
       {/*top menu*/}
@@ -30,7 +33,7 @@ export function Layout(props) {
                      <Link to="/users">Users</Link>
                   </li>
                   <li>
-                     <a href="/test">Test</a>
+                     <button onClick={() => auth.logout()}>LOGOUT</button>
                   </li>
                </ul>
             </nav>

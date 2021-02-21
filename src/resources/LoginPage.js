@@ -5,6 +5,9 @@ import { Input } from '../components/Input';
 import { Divider } from '../components/Divider';
 import { useHistory } from "react-router";
 import { FaChessBishop } from "react-icons/fa";
+import { useAuth } from '../providers/AuthProvider';
+import { Form, Field } from 'react-final-form';
+import {Redirect} from "react-router-dom";
 
 const useStyles = createUseStyles(theme => ({
    '@keyframes slideLeft': {
@@ -37,6 +40,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 export function LoginPage(props) {
+   const auth = useAuth();
    const classes = useStyles();
    const history = useHistory();
 
@@ -44,6 +48,22 @@ export function LoginPage(props) {
       history.push('/registration');
    }
 
+   const loginSubmitHandler = (form) => {
+      auth.login(form.email, form.password);
+   }
+
+   const emailValidate = (value) => {
+      const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+      if (!emailRegex.test(value)) return 'Некорректный email';
+      return undefined;
+   }
+
+   const passwordValidate = (value) => {
+      if (!value || value.length < 6) return 'Пароль должен быть длиннее 5 символов';
+      return undefined;
+   }
+
+   if (auth.authStatus === 'AUTH_AUTHORIZED') return <Redirect to="/" />
    return <div className={classes.wrapper}>
       <div className={classes.loginCard}>
          <div style={{ display: 'flex', alignItems: 'center', fontWeight: 100, marginBottom: '25px' }}>
@@ -53,14 +73,28 @@ export function LoginPage(props) {
 
          <h1 style={{ fontWeight: 600, fontSize: '1.6em', color: '#2B3044' }}>Вход в сервис</h1>
 
-         <Input placeholder="Эл.почта" />
-         <Input placeholder="Пароль" type="password" />
+         <Form onSubmit={loginSubmitHandler}>
+            {formProps => (
+               <form onSubmit={formProps.handleSubmit}>
 
-         <div style={{ marginTop: '10px' }}>
-            <Button fullWidth>Войти</Button>
-            <Divider />
-            <Button fullWidth onClick={redirectToRegistration}>Регистрация</Button>
-         </div>
+                  <Field name="email" validate={emailValidate}>
+                     {fieldProps => <Input placeholder="Эл.почта" {...fieldProps.input} />}
+                  </Field>
+
+                  <Field name="password" validate={passwordValidate}>
+                     {fieldProps => <Input placeholder="Пароль" type="password" {...fieldProps.input} />}
+                  </Field>
+
+                  <div style={{ marginTop: '10px' }}>
+                     <Button type="submit" fullWidth>Войти</Button>
+                  </div>
+
+               </form>
+            )}
+         </Form>
+
+         <Divider />
+         <Button fullWidth onClick={redirectToRegistration}>Создать учетную запись</Button>
 
       </div>
    </div>
