@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { createUseStyles } from 'react-jss'
+import { createUseStyles } from 'react-jss';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { Divider } from '../components/Divider';
@@ -9,6 +9,8 @@ import { useAuth } from '../providers/AuthProvider';
 import { Form, Field } from 'react-final-form';
 import { Redirect } from "react-router-dom";
 import { Alert } from '../components/Alert';
+import {CircularProgress} from '../components/CircularProgress';
+import {GradientOverlay} from '../components/GradientOverlay';
 
 const useStyles = createUseStyles(theme => ({
    '@keyframes slideLeft': {
@@ -37,6 +39,7 @@ const useStyles = createUseStyles(theme => ({
       background: '#fff',
       width: '410px',
       padding: '2rem',
+      position: 'relative'
    }
 }));
 
@@ -44,13 +47,16 @@ export function LoginPage(props) {
    const auth = useAuth();
    const classes = useStyles();
    const history = useHistory();
+   const [isLoading, setLoading] = useState(false);
 
    const redirectToRegistration = () => {
       history.push('/registration');
    }
 
-   const loginSubmitHandler = (form) => {
-      auth.login(form.email, form.password);
+   const loginSubmitHandler = async (form) => {
+      setLoading(true);
+      await auth.login(form.email, form.password);
+      setLoading(false);
    }
 
    const emailValidate = (value) => {
@@ -67,6 +73,9 @@ export function LoginPage(props) {
    if (auth.authStatus === 'AUTH_AUTHORIZED') return <Redirect to="/" />
    return <div className={classes.wrapper}>
       <div className={classes.loginCard}>
+
+         {isLoading ? <GradientOverlay><CircularProgress /></GradientOverlay> : ''}
+
          <div style={{ display: 'flex', alignItems: 'center', fontWeight: 100, marginBottom: '25px' }}>
             <FaChessBishop style={{ marginRight: '10px', fontSize: '1.3em', color: '#83afe0' }} />
             <span>Bishop converter</span>
@@ -97,7 +106,7 @@ export function LoginPage(props) {
          </Form>
 
          <Divider />
-         <Button fullWidth onClick={redirectToRegistration} color="green" iconLeft={<FaPlusCircle/>}>Создать учетную запись</Button>
+         <Button fullWidth onClick={redirectToRegistration} color="green" iconLeft={<FaPlusCircle />}>Создать учетную запись</Button>
 
       </div>
    </div>

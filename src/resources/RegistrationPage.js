@@ -10,6 +10,8 @@ import { Alert } from '../components/Alert';
 import { config } from '../config';
 import { useAuth } from '../providers/AuthProvider';
 import {Redirect} from "react-router-dom";
+import {CircularProgress} from '../components/CircularProgress';
+import {GradientOverlay} from '../components/GradientOverlay';
 
 const useStyles = createUseStyles(theme => ({
    '@keyframes slideRight': {
@@ -84,7 +86,8 @@ export function RegistrationPage(props) {
    if (auth.authStatus === 'AUTH_AUTHORIZED') return <Redirect to="/" />
    return <div className={classes.wrapper}>
       <div className={classes.loginCard}>
-         {isLoading ? <div style={{position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%', top: 0, left: 0, background: 'linear-gradient(46deg, #c7d2fe, transparent)'}}><span>Пожалуйста подождите...</span></div> : ''}
+         
+         {isLoading ? <GradientOverlay><CircularProgress/></GradientOverlay> : ''}
 
          <div style={{ display: 'flex', alignItems: 'center', fontWeight: 100, marginBottom: '25px' }}>
             <FaChessBishop style={{ marginRight: '10px', fontSize: '1.3em', color: '#83afe0' }} />

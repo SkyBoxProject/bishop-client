@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { createUseStyles } from 'react-jss';
-import { FaTimes } from "react-icons/fa";
+import { createUseStyles, useTheme } from 'react-jss';
 
 const useStyles = createUseStyles(theme => ({
    '@keyframes slideRight': {
@@ -16,8 +15,15 @@ const useStyles = createUseStyles(theme => ({
    alert: {
       animation: '$slideRight ease-in 0.3s',
       padding: '20px',
-      background: '#FFF0F3',
-      borderLeft: '5px solid #FFB3C0',
+      background: (props) => {
+         //default
+         if(!props.type) return '#FFF0F3';
+         if (props.type === 'success') return 'rgba(243,250,247)';
+      },
+      borderLeft: (props) => {
+         if (!props.type) return '5px solid #FFB3C0';
+         if (props.type === 'success') return '5px solid #A7F3D0';
+      },
       borderRadius: '4px',
       fontSize: '.875rem',
       margin: '10px 0px'
@@ -37,11 +43,11 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 export function Alert(props) {
-   const classes = useStyles();
+   const theme = useTheme();
+   const classes = useStyles({...props, theme});
    const [isVisible, setVisibility] = useState(true);
-   const type = classes[props.type] ? ' ' + classes[props.type] : '';
    return <>
-      <div className={classes.alert + type}>
+      <div className={classes.alert}>
          <summary className={classes.title}>{props.title}</summary>
          {props.children}
       </div>
