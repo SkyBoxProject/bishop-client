@@ -95,10 +95,6 @@ export function RegistrationPage(props) {
 
                   {formProps.submitFailed && Object.values(formProps.errors).length ? <Alert title="Ошибки заполнения:">{Object.values(formProps.errors).map(err => <div>{err}</div>)}</Alert> : ""}
 
-                  <div style={{ margin: '10px 0px', wordBreak: 'break-all', fontFamily: 'monospace' }}>
-                     {JSON.stringify(formProps.values)}
-                  </div>
-
                   <Field name="email" validate={emailValidate}>
                      {fieldProps => <Input placeholder="Эл.почта" {...fieldProps.input} />}
                   </Field>
