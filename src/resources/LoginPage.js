@@ -4,10 +4,11 @@ import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { Divider } from '../components/Divider';
 import { useHistory } from "react-router";
-import { FaChessBishop } from "react-icons/fa";
+import { FaChessBishop, FaPlusCircle } from "react-icons/fa";
 import { useAuth } from '../providers/AuthProvider';
 import { Form, Field } from 'react-final-form';
-import {Redirect} from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import { Alert } from '../components/Alert';
 
 const useStyles = createUseStyles(theme => ({
    '@keyframes slideLeft': {
@@ -59,7 +60,7 @@ export function LoginPage(props) {
    }
 
    const passwordValidate = (value) => {
-      if (!value || value.length < 6) return 'Пароль должен быть длиннее 5 символов';
+      if (!value || value.length < 6) return 'Проверьте правильность ввода пароля';
       return undefined;
    }
 
@@ -76,6 +77,8 @@ export function LoginPage(props) {
          <Form onSubmit={loginSubmitHandler}>
             {formProps => (
                <form onSubmit={formProps.handleSubmit}>
+
+                  {formProps.submitFailed && Object.values(formProps.errors).length ? <Alert title="Не удалось войти">{Object.values(formProps.errors).map(err => <div>{err}</div>)}</Alert> : ""}
 
                   <Field name="email" validate={emailValidate}>
                      {fieldProps => <Input placeholder="Эл.почта" {...fieldProps.input} />}
@@ -94,7 +97,7 @@ export function LoginPage(props) {
          </Form>
 
          <Divider />
-         <Button fullWidth onClick={redirectToRegistration}>Создать учетную запись</Button>
+         <Button fullWidth onClick={redirectToRegistration} color="green" iconLeft={<FaPlusCircle/>}>Создать учетную запись</Button>
 
       </div>
    </div>

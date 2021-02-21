@@ -24,11 +24,11 @@ const useStyles = createUseStyles(theme => ({
       fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji',
       marginTop: '.5rem',
       '&:focus': {
-         boxShadow: `0 0 0 3px ${theme.colorPrimary + '42'}`,
+         boxShadow: `0 0 0 3px ${theme.colors.primary + '42'}`,
          outlineColor: 'rgba(0,0,0,0)',
          outlineOffset: '2px',
          outlineStyle: 'solid',
-         borderColor: theme.colorPrimary
+         borderColor: theme.colors.primary
       }
    },
    inputWrapper: {

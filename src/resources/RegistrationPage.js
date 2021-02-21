@@ -5,7 +5,7 @@ import { Input } from '../components/Input';
 import { Divider } from '../components/Divider';
 import { useHistory } from "react-router";
 import { Form, Field } from 'react-final-form';
-import { FaChessBishop } from "react-icons/fa";
+import { FaChessBishop, FaArrowLeft } from "react-icons/fa";
 import { Alert } from '../components/Alert';
 import { config } from '../config';
 import { useAuth } from '../providers/AuthProvider';
@@ -65,7 +65,7 @@ export function RegistrationPage(props) {
          setLoading(false);
          throw new Error('Ответ сети был не ok.');
       } else {
-         setResponse('Регистрация завершена. На вашу почту отправлена ссылка для подтверждения.');
+         setResponse('Регистрация завершена. На вашу почту отправлена ссылка для подтверждения. Если письмо по какой-то причине не отображается, проверьте папку спам.');
          setLoading(false);
       }
    }
@@ -111,8 +111,6 @@ export function RegistrationPage(props) {
                      {fieldProps => <Input placeholder="Повторите пароль" type="password" {...fieldProps.input} />}
                   </Field>
 
-                  <p>{response}</p>
-
                   <div style={{ marginTop: '10px' }}>
                      <Button type="submit" fullWidth>Зарегистрироваться</Button>
                      <Divider />
@@ -120,10 +118,10 @@ export function RegistrationPage(props) {
 
                </form>
             )}
-         </Form> : <div style={{margin: '20px 0px', padding: '20px', background: '#fafffa', borderLeft: '5px solid #d4ffb3'}}>{response}</div>
+         </Form> : <Alert type="success">{response}</Alert>
          }
 
-         <Button fullWidth onClick={backToLogin}>Назад ко входу</Button>
+         <Button fullWidth onClick={backToLogin} color="green" iconLeft={<FaArrowLeft/>}>Назад ко входу</Button>
 
       </div>
    </div>

@@ -1,13 +1,20 @@
 import React, { Fragment } from "react";
-import { createUseStyles } from 'react-jss'
+import { createUseStyles, useTheme } from 'react-jss'
 
 const useStyles = createUseStyles(theme => ({
-   main: {
+   buttonMain: {
+      width: (props) => props.fullWidth ? '100%' : 'auto',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
       paddingLeft: '1.5rem',
       paddingRight: '1.5rem',
       paddingTop: '.75rem',
       paddingBottom: '.75rem',
-      background: '#4299e1',
+      background: (props) => {
+         if (props.color) return theme.colors[props.color];
+         return theme.colors.primary;
+      },
       borderRadius: '.25rem',
       border: 'none',
       color: '#fff',
@@ -18,25 +25,32 @@ const useStyles = createUseStyles(theme => ({
          filter: 'brightness(90%)'
       },
       '&:focus': {
-         boxShadow: `0 0 0 3px ${theme.colorPrimary + '42'}`,
+         boxShadow: (props) => {
+            if (props.color) return `0 0 0 3px ${theme.colors[props.color] + '42'}`;
+            return `0 0 0 3px ${theme.colors.primary + '42'}`;
+         },
          outlineColor: 'rgba(0,0,0,0)',
          outlineOffset: '2px',
          outlineStyle: 'solid',
-         borderColor: theme.colorPrimary
+         borderColor: theme.colors.primary
       }
    },
-   fullWidth: {
-      width: '100%'
+   iconLeft: {
+      marginRight: '.5rem',
+      display: 'flex',
+      alignItems: 'center'
    }
 }));
 
 export const Button = (props) => {
-   const classes = useStyles('test');
+   const theme = useTheme();
+   const classes = useStyles({...props, theme})
    return <button
-      className={classes.main + (props.fullWidth ? ' ' + classes.fullWidth : '')}
+      className={classes.buttonMain}
       onClick={props.onClick}
       type={props.type}
    >
+      {props.iconLeft ? <span className={classes.iconLeft}>{props.iconLeft}</span> : ''}
       {props.children}
    </button>
 }
