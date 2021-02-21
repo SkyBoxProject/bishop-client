@@ -65,7 +65,7 @@ function useAuthProvider() {
 
    const getNewToken = async (refreshToken) => {
       try {
-         const response =  fetch(config.apiPath + 'login', {
+         const response = await fetch(config.apiPath + 'login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 'refresh_token': refreshToken })
