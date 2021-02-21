@@ -39,7 +39,14 @@ const useStyles = createUseStyles(theme => ({
 export const Input = (props) => {
    const classes = useStyles();
    return <div className={classes.inputWrapper}>
-   <input className={classes.inputMain} placeholder={props.placeholder} onChange={props.onChange}></input>
-   </div> 
+      <input
+         className={classes.inputMain}
+         placeholder={props.placeholder}
+         onChange={props.onChange}
+         value={props.value}
+         type={props.type}
+      >
+      </input>
+   </div>
 }
 export default Input;

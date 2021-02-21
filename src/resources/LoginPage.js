@@ -54,7 +54,7 @@ export function LoginPage(props) {
          <h1 style={{ fontWeight: 600, fontSize: '1.6em', color: '#2B3044' }}>Вход в сервис</h1>
 
          <Input placeholder="Эл.почта" />
-         <Input placeholder="Пароль" />
+         <Input placeholder="Пароль" type="password" />
 
          <div style={{ marginTop: '10px' }}>
             <Button fullWidth>Войти</Button>

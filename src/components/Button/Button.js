@@ -32,6 +32,12 @@ const useStyles = createUseStyles(theme => ({
 
 export const Button = (props) => {
    const classes = useStyles('test');
-   return <button className={classes.main + (props.fullWidth ? ' ' + classes.fullWidth : '')} onClick={props.onClick}>{props.children}</button>
+   return <button
+      className={classes.main + (props.fullWidth ? ' ' + classes.fullWidth : '')}
+      onClick={props.onClick}
+      type={props.type}
+   >
+      {props.children}
+   </button>
 }
 export default Button;
