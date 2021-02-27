@@ -11,7 +11,8 @@ const useStyles = createUseStyles(theme => ({
       height: '100vh',
       fontFamily: 'monospace',
       color: '#fff',
-      fontSize: '1.5em'
+      fontSize: '1.5em',
+      zIndex: 999
    },
 }));
 
