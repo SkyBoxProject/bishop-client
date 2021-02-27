@@ -48,24 +48,29 @@ export function LoginPage(props) {
    const classes = useStyles();
    const history = useHistory();
    const [isLoading, setLoading] = useState(false);
+   const [isLoginError, setLoginError] = useState(false);
 
    const redirectToRegistration = () => {
       history.push('/registration');
    }
 
    const loginSubmitHandler = async (form) => {
+      setLoginError(false);
       setLoading(true);
       await auth.login(form.email, form.password);
       setLoading(false);
+      if (auth.authStatus !== 'AUTH_AUTHORIZED') setLoginError(true);
    }
 
    const emailValidate = (value) => {
+      setLoginError(false);
       const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
       if (!emailRegex.test(value)) return 'Некорректный email';
       return undefined;
    }
 
    const passwordValidate = (value) => {
+      setLoginError(false);
       if (!value || value.length < 6) return 'Проверьте правильность ввода пароля';
       return undefined;
    }
@@ -87,7 +92,13 @@ export function LoginPage(props) {
             {formProps => (
                <form onSubmit={formProps.handleSubmit}>
 
-                  {formProps.submitFailed && Object.values(formProps.errors).length ? <Alert title="Не удалось войти">{Object.values(formProps.errors).map(err => <div>{err}</div>)}</Alert> : ""}
+                  {formProps.submitFailed && Object.values(formProps.errors).length ? <Alert title="Не удалось войти">
+                     {Object.values(formProps.errors).map(err => <div>{err}</div>)}
+                  </Alert> : ''}
+
+                  {isLoginError ? <Alert title="Не удалось войти">
+                     Проверьте правильность написания логина или пароля
+                  </Alert> : ''}
 
                   <Field name="email" validate={emailValidate}>
                      {fieldProps => <Input placeholder="Эл.почта" {...fieldProps.input} />}
