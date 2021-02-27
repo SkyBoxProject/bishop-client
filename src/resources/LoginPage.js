@@ -26,7 +26,7 @@ const useStyles = createUseStyles(theme => ({
    wrapper: {
       //background: '#f7fafc', //#f7fafc
       maxWidth: '100vw',
-      height: '100vh',
+      minHeight: '100vh',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
