@@ -8,7 +8,6 @@ import { RegistrationPage } from './resources/RegistrationPage';
 import { Layout } from './layout/Layout';
 import { Bsod, useBsodCode } from './components/Bsod';
 import { useState } from "react";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 function App() {
    const [isBsod, setBsod] = useState(false);
