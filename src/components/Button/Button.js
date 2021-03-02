@@ -49,6 +49,7 @@ export const Button = (props) => {
       className={classes.buttonMain}
       onClick={props.onClick}
       type={props.type}
+      style={{...props.style}}
    >
       {props.iconLeft ? <span className={classes.iconLeft}>{props.iconLeft}</span> : ''}
       {props.children}

@@ -14,7 +14,7 @@ const useStyles = createUseStyles(theme => ({
    mainWrapper: {
       display: 'flex',
       justifyContent: 'center',
-      marginTop: '15px',
+      marginTop: '25px',
    },
    mainContent: {
       display: 'flex',
