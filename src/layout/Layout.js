@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useAuth } from '../providers/AuthProvider';
 import { createUseStyles } from 'react-jss';
 import { FaChessBishop } from "react-icons/fa";
-import { SideMenu } from './SideMenu'
+import { SideMenu } from './SideMenu';
+import { Button } from '../components/Button';
 
 const useStyles = createUseStyles(theme => ({
    layout: {
@@ -46,19 +47,25 @@ const useStyles = createUseStyles(theme => ({
 
 export function Layout(props) {
    const classes = useStyles();
+   const auth = useAuth();
 
    return <div className={classes.layout}>
 
       {/*top menu*/}
       <div className={classes.headerPanel}>
          <div className={classes.container}>
+            <div className="headerLeftBar">
             <div style={{ display: 'flex', alignItems: 'center', fontWeight: 100 }}>
                <FaChessBishop style={{ marginRight: '10px', fontSize: '1.3em', color: '#83afe0' }} />
                <span>Bishop converter</span>
             </div>
+            </div>
 
 
-            <span>Тестовая версия</span>
+            <div className="headerRightBar" style={{display: 'flex', alignItems: 'center'}}>
+            <span style={{fontWeight: 500}}>TestUser</span>
+            <Button style={{marginLeft: '15px'}} onClick={() => auth.logout()}>Выйти</Button>
+            </div>
          </div>
       </div>
 

@@ -11,6 +11,7 @@ import { Redirect } from "react-router-dom";
 import { Alert } from '../components/Alert';
 import {CircularProgress} from '../components/CircularProgress';
 import {GradientOverlay} from '../components/GradientOverlay';
+import { Label } from '../components/Label';
 
 const useStyles = createUseStyles(theme => ({
    '@keyframes slideLeft': {
@@ -101,11 +102,21 @@ export function LoginPage(props) {
                   </Alert> : ''}
 
                   <Field name="email" validate={emailValidate}>
-                     {fieldProps => <Input placeholder="Эл.почта" {...fieldProps.input} />}
+                     {fieldProps => (
+                        <Label>
+                           <span>Эл.почта</span>
+                        <Input {...fieldProps.input} />
+                        </Label>
+                     )}
                   </Field>
 
                   <Field name="password" validate={passwordValidate}>
-                     {fieldProps => <Input placeholder="Пароль" type="password" {...fieldProps.input} />}
+                     {fieldProps => (
+                        <Label>
+                           <span>Пароль</span>
+                        <Input type="password" {...fieldProps.input} />
+                        </Label>
+                     )}
                   </Field>
 
                   <div style={{ marginTop: '10px' }}>

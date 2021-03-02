@@ -9,9 +9,10 @@ import { FaChessBishop, FaArrowLeft } from "react-icons/fa";
 import { Alert } from '../components/Alert';
 import { config } from '../config';
 import { useAuth } from '../providers/AuthProvider';
-import {Redirect} from "react-router-dom";
-import {CircularProgress} from '../components/CircularProgress';
-import {GradientOverlay} from '../components/GradientOverlay';
+import { Redirect } from "react-router-dom";
+import { CircularProgress } from '../components/CircularProgress';
+import { GradientOverlay } from '../components/GradientOverlay';
+import { Label } from '../components/Label';
 
 const useStyles = createUseStyles(theme => ({
    '@keyframes slideRight': {
@@ -86,8 +87,8 @@ export function RegistrationPage(props) {
    if (auth.authStatus === 'AUTH_AUTHORIZED') return <Redirect to="/" />
    return <div className={classes.wrapper}>
       <div className={classes.loginCard}>
-         
-         {isLoading ? <GradientOverlay><CircularProgress/></GradientOverlay> : ''}
+
+         {isLoading ? <GradientOverlay><CircularProgress /></GradientOverlay> : ''}
 
          <div style={{ display: 'flex', alignItems: 'center', fontWeight: 100, marginBottom: '25px' }}>
             <FaChessBishop style={{ marginRight: '10px', fontSize: '1.3em', color: '#83afe0' }} />
@@ -103,15 +104,31 @@ export function RegistrationPage(props) {
                   {formProps.submitFailed && Object.values(formProps.errors).length ? <Alert title="Ошибки заполнения:">{Object.values(formProps.errors).map(err => <div>{err}</div>)}</Alert> : ""}
 
                   <Field name="email" validate={emailValidate}>
-                     {fieldProps => <Input placeholder="Эл.почта" {...fieldProps.input} />}
+                     {fieldProps => (
+                        <Label>
+                           <span>Эл.почта</span>
+                           <Input {...fieldProps.input} />
+                        </Label>
+                     )
+                     }
                   </Field>
 
                   <Field name="password" validate={passwordValidate}>
-                     {fieldProps => <Input placeholder="Пароль" type="password" {...fieldProps.input} />}
+                     {fieldProps => (
+                        <Label>
+                           <span>Пароль</span>
+                           <Input type="password" {...fieldProps.input} />
+                        </Label>
+                     )}
                   </Field>
 
                   <Field name="passwordRepeat" validate={(val) => !val || formProps.values.password !== val ? 'Пароли не совпадают' : undefined}>
-                     {fieldProps => <Input placeholder="Повторите пароль" type="password" {...fieldProps.input} />}
+                     {fieldProps => (
+                        <Label>
+                           <span>Повторите пароль</span>
+                           <Input type="password" {...fieldProps.input} />
+                        </Label>
+                     )}
                   </Field>
 
                   <div style={{ marginTop: '10px' }}>
@@ -124,7 +141,7 @@ export function RegistrationPage(props) {
          </Form> : <Alert type="success">{response}</Alert>
          }
 
-         <Button fullWidth onClick={backToLogin} color="green" iconLeft={<FaArrowLeft/>}>Назад ко входу</Button>
+         <Button fullWidth onClick={backToLogin} color="green" iconLeft={<FaArrowLeft />}>Назад ко входу</Button>
 
       </div>
    </div>

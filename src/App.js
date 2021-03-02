@@ -8,6 +8,7 @@ import { RegistrationPage } from './resources/RegistrationPage';
 import { Layout } from './layout/Layout';
 import { Bsod, useBsodCode } from './components/Bsod';
 import { useState } from "react";
+import Converter from "./resources/Converter";
 
 function App() {
    const [isBsod, setBsod] = useState(false);
@@ -39,8 +40,14 @@ function App() {
                   <PrivateRoute path="/users">
                      <Users />
                   </PrivateRoute>
+                  <PrivateRoute path="/feeds">
+                     <Feeds />
+                  </PrivateRoute>
+                  <PrivateRoute path="/settings">
+                     <Settings />
+                  </PrivateRoute>
                   <PrivateRoute path="/">
-                     <Home />
+                     <Converter />
                   </PrivateRoute>
                </Switch>
 
@@ -49,12 +56,6 @@ function App() {
          </ThemeProvider>
       </AuthProvider>
    );
-}
-
-function Home() {
-   return <Layout>
-      <h2>Home</h2>
-   </Layout>;
 }
 
 function About() {
@@ -66,6 +67,18 @@ function About() {
 function Users() {
    return <Layout>
       <h2>Users</h2>
+   </Layout>;
+}
+
+function Feeds() {
+   return <Layout>
+      <h2>Feeds</h2>
+   </Layout>;
+}
+
+function Settings() {
+   return <Layout>
+      <h2>Settings</h2>
    </Layout>;
 }
 

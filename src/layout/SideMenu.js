@@ -1,12 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch } from "react-router-dom";
-import { useAuth } from '../providers/AuthProvider';
 import { createUseStyles } from 'react-jss';
-import {Button} from '../components/Button';
 
 const useStyles = createUseStyles(theme => ({
    sideMenuWrapper: {
-      marginRight: '30px',
+      marginRight: '15px',
+      width: '160px',
       '& ul': {
          listStyle: 'none',
          margin: 0,
@@ -17,7 +16,7 @@ const useStyles = createUseStyles(theme => ({
 
 const useLinkStyles = createUseStyles(theme => ({
    link: {
-      padding: '5px 20px',
+      padding: '8px 15px',
       display: 'block',
       textDecoration: 'none',
       borderRadius: '3px',
@@ -51,23 +50,25 @@ function SideMenuLink({ label, to, activeOnlyWhenExact }) {
 }
 
 export function SideMenu(props) {
-   const auth = useAuth();
    const classes = useStyles();
 
    return <div className={classes.sideMenuWrapper}>
       <nav>
          <ul>
             <li>
-               <SideMenuLink to="/" activeOnlyWhenExact={true} label="Главная" />
+               <SideMenuLink to="/" activeOnlyWhenExact={true} label="Конвертер" />
             </li>
             <li>
-               <SideMenuLink to="/about" label="About" />
+               <SideMenuLink to="/about" label="О нас" />
             </li>
             <li>
-               <SideMenuLink to="/users" label="Users" />
+               <SideMenuLink to="/users" label="Пользователи" />
             </li>
             <li>
-               <Button style={{marginTop: '25px'}} onClick={() => auth.logout()}>Выход</Button>
+               <SideMenuLink to="/feeds" label="Фиды" />
+            </li>
+            <li>
+               <SideMenuLink to="/settings" label="Настройки" />
             </li>
          </ul>
       </nav>
