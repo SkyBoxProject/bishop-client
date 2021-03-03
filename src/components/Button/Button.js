@@ -21,8 +21,12 @@ const useStyles = createUseStyles(theme => ({
       fontFamily: 'inherit',
       outline: 'none',
       cursor: 'pointer',
+      transition: 'all 0.15s',
       '&:hover': {
          filter: 'brightness(90%)'
+      },
+      '&:active': {
+         filter: 'brightness(95%)'
       },
       '&:focus': {
          boxShadow: (props) => {
