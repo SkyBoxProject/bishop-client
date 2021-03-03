@@ -12,12 +12,19 @@ const useStyles = createUseStyles(theme => ({
       paddingTop: '.75rem',
       paddingBottom: '.75rem',
       background: (props) => {
+         if (props.variant === 'outlined') return 'transparent';
          if (props.color) return theme.colors[props.color];
          return theme.colors.primary;
       },
       borderRadius: '.25rem',
-      border: 'none',
-      color: '#fff',
+      border: (props) => {
+         if (props.variant === 'outlined') return '1px solid #d5d6d7';
+         return 'none';
+      },
+      color: (props) => {
+         if (props.variant === 'outlined') return '#4c4f52';
+         return '#fff'
+      },
       fontFamily: 'inherit',
       outline: 'none',
       cursor: 'pointer',
