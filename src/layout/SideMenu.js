@@ -4,7 +4,7 @@ import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles(theme => ({
    sideMenuWrapper: {
-      marginRight: '15px',
+      margin: '0px 10px',
       width: '160px',
       '& ul': {
          listStyle: 'none',
@@ -19,7 +19,7 @@ const useLinkStyles = createUseStyles(theme => ({
       padding: '8px 15px',
       display: 'block',
       textDecoration: 'none',
-      borderRadius: '3px',
+      //borderRadius: '3px',
       borderLeft: `3px solid transparent`,
       color: 'rgba(113,128,150)',
       '&:hover': {

@@ -9,12 +9,11 @@ import { Button } from '../components/Button';
 const useStyles = createUseStyles(theme => ({
    layout: {
       background: '#f7fafc',
-      minWidht: '100vw',
-      minHeight: '100vh'
+      minWidth: '100vw',
+      minHeight: '100vh',
+      overflow: 'auto'
    },
    mainWrapper: {
-      display: 'flex',
-      justifyContent: 'center',
       marginTop: '25px',
    },
    mainContent: {
@@ -34,6 +33,7 @@ const useStyles = createUseStyles(theme => ({
       flexGrow: 2
    },
    container: {
+      minWidth: theme.sizes.container,
       maxWidth: theme.sizes.container,
       display: 'flex',
       alignItems: 'center',
@@ -42,7 +42,13 @@ const useStyles = createUseStyles(theme => ({
       margin: '0 auto',
       height: '100%',
       width: '100%'
-   }
+   },
+   [`@media (max-width: ${theme.sizes.container})`]: {
+      headerPanel: {
+        width: theme.sizes.container,
+        maxWidth: theme.sizes.container
+      }
+    }
 }));
 
 export function Layout(props) {
