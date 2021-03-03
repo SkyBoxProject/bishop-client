@@ -70,7 +70,7 @@ export function Layout(props) {
 
             <div className="headerRightBar" style={{display: 'flex', alignItems: 'center'}}>
             <span style={{fontWeight: 500}}>TestUser</span>
-            <Button style={{marginLeft: '15px'}} onClick={() => auth.logout()}>Выйти</Button>
+            <Button variant="outlined" style={{marginLeft: '15px'}} onClick={() => auth.logout()}>Выйти</Button>
             </div>
          </div>
       </div>

@@ -59,15 +59,6 @@ export function SideMenu(props) {
                <SideMenuLink to="/" activeOnlyWhenExact={true} label="Конвертер" />
             </li>
             <li>
-               <SideMenuLink to="/about" label="О нас" />
-            </li>
-            <li>
-               <SideMenuLink to="/users" label="Пользователи" />
-            </li>
-            <li>
-               <SideMenuLink to="/feeds" label="Фиды" />
-            </li>
-            <li>
                <SideMenuLink to="/settings" label="Настройки" />
             </li>
          </ul>
