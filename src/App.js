@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, useLocation } from "react-router-dom";
 import './App.css';
 import { createUseStyles, useTheme, ThemeProvider } from 'react-jss';
 import { theme } from './themes/mainTheme';
@@ -9,6 +9,7 @@ import { Layout } from './layout/Layout';
 import { Bsod, useBsodCode } from './components/Bsod';
 import { useState } from "react";
 import Converter from "./resources/Converter";
+import { FaExclamationCircle } from "react-icons/fa";
 
 function App() {
    const [isBsod, setBsod] = useState(false);
@@ -34,20 +35,14 @@ function App() {
                   <Route path="/registration">
                      <RegistrationPage />
                   </Route>
-                  <PrivateRoute path="/about">
-                     <About />
-                  </PrivateRoute>
-                  <PrivateRoute path="/users">
-                     <Users />
-                  </PrivateRoute>
-                  <PrivateRoute path="/feeds">
-                     <Feeds />
-                  </PrivateRoute>
                   <PrivateRoute path="/settings">
                      <Settings />
                   </PrivateRoute>
-                  <PrivateRoute path="/">
+                  <PrivateRoute exact path="/">
                      <Converter />
+                  </PrivateRoute>
+                  <PrivateRoute path="*">
+                     <NoMatch />
                   </PrivateRoute>
                </Switch>
 
@@ -58,22 +53,16 @@ function App() {
    );
 }
 
-function About() {
-   return <Layout>
-      <h2>About</h2>
-   </Layout>;
-}
-
-function Users() {
-   return <Layout>
-      <h2>Users</h2>
-   </Layout>;
-}
-
-function Feeds() {
-   return <Layout>
-      <h2>Feeds</h2>
-   </Layout>;
+function NoMatch() {
+   return (
+      <Layout>
+         <div style={{ textAlign: 'center', color: 'grey' }}>
+            <FaExclamationCircle style={{ fontSize: '2.5em' }} />
+            <h2 style={{ margin: '10px 0px' }}>404</h2>
+            <h3 style={{ fontWeight: 300, marginBottom: 0 }}>Запрашиваемая страница не найдена</h3>
+         </div>
+      </Layout>
+   );
 }
 
 function Settings() {
