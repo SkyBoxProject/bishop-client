@@ -5,6 +5,7 @@ import { theme } from './themes/mainTheme';
 import { AuthProvider, PrivateRoute } from './providers/AuthProvider';
 import { LoginPage } from './resources/LoginPage';
 import { RegistrationPage } from './resources/RegistrationPage';
+import { Settings } from './resources/Settings';
 import { Layout } from './layout/Layout';
 import { Bsod, useBsodCode } from './components/Bsod';
 import { useState } from "react";
@@ -63,12 +64,6 @@ function NoMatch() {
          </div>
       </Layout>
    );
-}
-
-function Settings() {
-   return <Layout>
-      <h2>Settings</h2>
-   </Layout>;
 }
 
 export default App;
