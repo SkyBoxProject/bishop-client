@@ -69,7 +69,7 @@ export function Layout(props) {
 
 
             <div className="headerRightBar" style={{display: 'flex', alignItems: 'center'}}>
-            <span style={{fontWeight: 500}}>TestUser</span>
+            <span style={{fontWeight: 500}}>{auth.userInfo ? auth.userInfo.email.split('@')[0] : ''}</span>
             <Button variant="outlined" style={{marginLeft: '15px'}} onClick={() => auth.logout()}>Выйти</Button>
             </div>
          </div>

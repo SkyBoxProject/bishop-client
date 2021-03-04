@@ -28,6 +28,7 @@ const AUTH_NOT_AUTHORIZED = 'AUTH_NOT_AUTHORIZED';
 
 function useAuthProvider() {
    const [authStatus, setAuthStatus] = useState(AUTH_PENDING);
+   const [userInfo, setUserInfo] = useState(null);
 
    useEffect(() => {
       getToken().then(token => {
@@ -118,12 +119,35 @@ function useAuthProvider() {
       });
    };
 
+   const getUserData = async () => {
+      const token = await getToken();
+      const response = await fetch(config.apiPath + 'user', {
+         method: 'GET',
+         headers: { 'authorization': `bearer ${token}` }
+      });
+
+      if (!response.ok) {
+         logout();
+      }
+
+      const json = await response.json();
+      const data = json.response;
+      setUserInfo(data);
+   }
+
+   useEffect(() => {
+      if (authStatus !== AUTH_AUTHORIZED) return;
+      getUserData();
+   }, [authStatus]);
+   
+
    //ВАЖНО! в каждом ответе данные дополнительно завернуты в объект response т.е. получать их надо так: resp.json() => res.response()
    return {
       authStatus,
       login,
       logout,
-      getToken
+      getToken,
+      userInfo
    };
 }
 
@@ -149,7 +173,7 @@ function AuthButton() {
 
 function FullscreenLoader(props) {
    return <div style={{ background: '#e7ebef', position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <span>loading...</span>
+      <span>Загрузка...</span>
    </div>
 }
 
@@ -175,34 +199,6 @@ export function PrivateRoute({ children, ...rest }) {
                )
          }
       />
-   );
-}
-
-function PublicPage() {
-   return <h3>Public</h3>;
-}
-
-function ProtectedPage() {
-   return <h3>Protected</h3>;
-}
-
-function LoginPage() {
-   let history = useHistory();
-   let location = useLocation();
-   let auth = useAuth();
-
-   let { from } = location.state || { from: { pathname: "/" } };
-   let login = () => {
-      auth.signin(() => {
-         history.replace(from);
-      });
-   };
-
-   return (
-      <div>
-         <p>You must log in to view the page at {from.pathname}</p>
-         <button onClick={login}>Log in</button>
-      </div>
    );
 }
 
