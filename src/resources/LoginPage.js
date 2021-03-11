@@ -9,8 +9,8 @@ import { useAuth } from '../providers/AuthProvider';
 import { Form, Field } from 'react-final-form';
 import { Redirect } from "react-router-dom";
 import { Alert } from '../components/Alert';
-import {CircularProgress} from '../components/CircularProgress';
-import {GradientOverlay} from '../components/GradientOverlay';
+import { CircularProgress } from '../components/CircularProgress';
+import { GradientOverlay } from '../components/GradientOverlay';
 import { Label } from '../components/Label';
 
 const useStyles = createUseStyles(theme => ({
@@ -41,6 +41,11 @@ const useStyles = createUseStyles(theme => ({
       width: '410px',
       padding: '2rem',
       position: 'relative'
+   },
+   forgotPassLink: {
+      color: '#2b3044',
+      textDecoration: 'none',
+      fontSize: '0.9em'
    }
 }));
 
@@ -105,7 +110,7 @@ export function LoginPage(props) {
                      {fieldProps => (
                         <Label>
                            <span>Эл.почта</span>
-                        <Input {...fieldProps.input} />
+                           <Input {...fieldProps.input} />
                         </Label>
                      )}
                   </Field>
@@ -114,10 +119,12 @@ export function LoginPage(props) {
                      {fieldProps => (
                         <Label>
                            <span>Пароль</span>
-                        <Input type="password" {...fieldProps.input} />
+                           <Input type="password" {...fieldProps.input} />
                         </Label>
                      )}
                   </Field>
+
+                  <a href="#" className={classes.forgotPassLink}>Забыли пароль?</a>
 
                   <div style={{ marginTop: '10px' }}>
                      <Button type="submit" fullWidth>Войти</Button>
