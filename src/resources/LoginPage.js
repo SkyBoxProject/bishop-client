@@ -45,7 +45,10 @@ const useStyles = createUseStyles(theme => ({
    forgotPassLink: {
       color: '#2b3044',
       textDecoration: 'none',
-      fontSize: '0.9em'
+      fontSize: '0.9em',
+      '&:hover': {
+         textDecoration: 'underline'
+      }
    }
 }));
 
