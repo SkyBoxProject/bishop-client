@@ -9,7 +9,7 @@ import { Settings } from './resources/Settings';
 import { Layout } from './layout/Layout';
 import { Bsod, useBsodCode } from './components/Bsod';
 import { useState } from "react";
-import Converter from "./resources/Converter";
+import { FeedList } from "./resources/Feed/FeedList";
 import { FaExclamationCircle } from "react-icons/fa";
 
 function App() {
@@ -40,7 +40,7 @@ function App() {
                      <Settings />
                   </PrivateRoute>
                   <PrivateRoute exact path="/">
-                     <Converter />
+                     <FeedList />
                   </PrivateRoute>
                   <PrivateRoute path="*">
                      <NoMatch />

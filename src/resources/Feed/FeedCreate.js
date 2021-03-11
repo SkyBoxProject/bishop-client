@@ -1,9 +1,9 @@
 import React from 'react';
-import { Layout } from '../layout/Layout';
-import { Input } from '../components/Input';
-import { Label } from '../components/Label';
-import { Button } from '../components/Button';
-import { Textarea } from '../components/Textarea/Textarea';
+import { Layout } from '../../layout/Layout';
+import { Input } from '../../components/Input';
+import { Label } from '../../components/Label';
+import { Button } from '../../components/Button';
+import { Textarea } from '../../components/Textarea/Textarea';
 import { FaRegQuestionCircle } from "react-icons/fa";
 import ReactTooltip from 'react-tooltip';
 import { createUseStyles } from 'react-jss';
@@ -29,7 +29,7 @@ const useStyles = createUseStyles(theme => ({
    }
 }));
 
-export function Converter(props) {
+export function ConverterEdit(props) {
    const classes = useStyles();
    return <Layout>
       <h2>Конвертация XML-фида в CSV</h2>
@@ -69,4 +69,4 @@ export function Converter(props) {
       
    </Layout>
 }
-export default Converter;
+export default ConverterEdit;
