@@ -5,6 +5,7 @@ import { createUseStyles } from 'react-jss';
 import { FaChessBishop } from "react-icons/fa";
 import { SideMenu } from './SideMenu';
 import { Button } from '../components/Button';
+import { PlaceholderBox } from "../components/PlaceholderBox";
 
 const useStyles = createUseStyles(theme => ({
    layout: {
@@ -45,10 +46,10 @@ const useStyles = createUseStyles(theme => ({
    },
    [`@media (max-width: ${theme.sizes.container})`]: {
       headerPanel: {
-        width: theme.sizes.container,
-        maxWidth: theme.sizes.container
+         width: theme.sizes.container,
+         maxWidth: theme.sizes.container
       }
-    }
+   }
 }));
 
 export function Layout(props) {
@@ -61,16 +62,16 @@ export function Layout(props) {
       <div className={classes.headerPanel}>
          <div className={classes.container}>
             <div className="headerLeftBar">
-            <div style={{ display: 'flex', alignItems: 'center', fontWeight: 100 }}>
-               <FaChessBishop style={{ marginRight: '10px', fontSize: '1.3em', color: '#83afe0' }} />
-               <span>Bishop converter</span>
-            </div>
+               <div style={{ display: 'flex', alignItems: 'center', fontWeight: 100 }}>
+                  <FaChessBishop style={{ marginRight: '10px', fontSize: '1.3em', color: '#83afe0' }} />
+                  <span>Bishop converter</span>
+               </div>
             </div>
 
 
-            <div className="headerRightBar" style={{display: 'flex', alignItems: 'center'}}>
-            <span style={{fontWeight: 500}}>{auth.userInfo ? auth.userInfo.email.split('@')[0] : ''}</span>
-            <Button variant="outlined" style={{marginLeft: '15px'}} onClick={() => auth.logout()}>Выйти</Button>
+            <div className="headerRightBar" style={{ display: 'flex', alignItems: 'center' }}>
+               <span style={{ fontWeight: 500 }}>{auth.userInfo ? auth.userInfo.email.split('@')[0] : <PlaceholderBox />}</span>
+               <Button variant="outlined" style={{ marginLeft: '15px' }} onClick={() => auth.logout()}>Выйти</Button>
             </div>
          </div>
       </div>
