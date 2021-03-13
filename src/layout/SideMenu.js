@@ -6,6 +6,7 @@ const useStyles = createUseStyles(theme => ({
    sideMenuWrapper: {
       margin: '0px 10px',
       width: '160px',
+      minWidth: '160px',
       '& ul': {
          listStyle: 'none',
          margin: 0,
