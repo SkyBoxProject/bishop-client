@@ -9,7 +9,7 @@ import { Settings } from './resources/Settings';
 import { Layout } from './layout/Layout';
 import { Bsod, useBsodCode } from './components/Bsod';
 import { useState } from "react";
-import { FeedList } from "./resources/Feed/FeedList";
+import { FeedList, FeedCreate, FeedEdit } from "./resources/Feed";
 import { FaExclamationCircle } from "react-icons/fa";
 
 function App() {
@@ -30,18 +30,26 @@ function App() {
             <Router>
 
                <Switch>
-                  <Route path="/login">
+                  <Route exact path="/login">
                      <LoginPage />
                   </Route>
-                  <Route path="/registration">
+
+                  <Route exact path="/registration">
                      <RegistrationPage />
                   </Route>
-                  <PrivateRoute path="/settings">
+
+                  <PrivateRoute exact path="/settings">
                      <Settings />
                   </PrivateRoute>
+
+                  <PrivateRoute exact path="/feed/create">
+                     <FeedCreate />
+                  </PrivateRoute>
+
                   <PrivateRoute exact path="/">
                      <FeedList />
                   </PrivateRoute>
+
                   <PrivateRoute path="*">
                      <NoMatch />
                   </PrivateRoute>
