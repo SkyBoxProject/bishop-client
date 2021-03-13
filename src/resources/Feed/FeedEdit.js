@@ -29,7 +29,7 @@ const useStyles = createUseStyles(theme => ({
    }
 }));
 
-export function ConverterEdit(props) {
+export function FeedEdit(props) {
    const classes = useStyles();
    return <Layout>
       <h2>Конвертация XML-фида в CSV</h2>
@@ -69,4 +69,4 @@ export function ConverterEdit(props) {
       
    </Layout>
 }
-export default ConverterEdit;
+export default FeedEdit;

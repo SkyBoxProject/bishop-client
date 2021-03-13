@@ -6,6 +6,7 @@ import { config } from '../../config';
 import { useAuth } from '../../providers/AuthProvider';
 import { FaStream } from 'react-icons/fa';
 import { LinearProgress } from '../../components/LinearProgress';
+import { useHistory } from "react-router";
 
 const useStyles = createUseStyles(theme => ({
    emptyCard: {
@@ -18,6 +19,7 @@ export function FeedList(props) {
    const auth = useAuth();
    const [feedList, setFeedList] = useState(null);
    const classes = useStyles();
+   const history = useHistory();
 
    const getFeedList = async () => {
       const token = await auth.getToken();
@@ -48,7 +50,7 @@ export function FeedList(props) {
             </div>
 
             <div style={{ fontSize: '1.5em', color: 'grey' }}>Список фидов пуст</div>
-            <Button color="green" style={{ margin: '20px auto' }}>Создать новый</Button>
+            <Button color="green" onClick={() => history.push('/feed/create')} style={{ margin: '20px auto' }}>Создать новый</Button>
          </div> : ''}
 
          {feedList.map(val => <div>
