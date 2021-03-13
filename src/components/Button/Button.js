@@ -37,13 +37,11 @@ const useStyles = createUseStyles(theme => ({
       },
       '&:focus': {
          boxShadow: (props) => {
+            if (props.variant === 'outlined') return '0 0 0 3px rgb(213 214 215 / 45%)';
             if (props.color) return `0 0 0 3px ${theme.colors[props.color] + '42'}`;
             return `0 0 0 3px ${theme.colors.primary + '42'}`;
          },
-         outlineColor: 'rgba(0,0,0,0)',
-         outlineOffset: '2px',
-         outlineStyle: 'solid',
-         borderColor: theme.colors.primary
+         borderColor: (props) => props.variant === 'outlined' ? '#707275' : theme.colors.primary
       }
    },
    iconLeft: {
