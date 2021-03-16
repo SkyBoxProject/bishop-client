@@ -42,26 +42,25 @@ export function FeedCreate(props) {
       const token = await auth.getToken();
       const response = await fetch(config.apiPath + 'feed', {
          method: 'POST',
-         headers: { 'authorization': `bearer ${token}` },
+         headers: {
+            'authorization': `bearer ${token}`,
+            'Content-Type': 'application/json'
+         },
          body: JSON.stringify(form)
       });
       if (!response.ok) return;
 
-      const json = await response.json();
-      const data = json.response;
+      history.push('/');
    }
 
    return <Layout>
       <h2>Создание нового фида</h2>
+
       <ReactTooltip place='right' className={classes.tooltip} effect='solid' />
 
       <Form onSubmit={feedCreateHandler}>
          {formProps => (
             <form onSubmit={formProps.handleSubmit}>
-
-               <div style={{ margin: '10px 0px', wordBreak: 'break-all', fontFamily: 'monospace' }}>
-                  {JSON.stringify(formProps.values)}
-               </div>
 
                <Field name="name">
                   {fieldProps => (
