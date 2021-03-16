@@ -138,7 +138,7 @@ export function FeedCreate(props) {
                </Field>
 
                <div style={{ marginTop: '10px', display: 'flex' }}>
-                  <Button>Создать</Button>
+                  <Button type="submit">Создать</Button>
                   <Button variant="outlined" onClick={() => history.push('/')} style={{ marginLeft: '10px' }}>Отмена</Button>
                </div>
 

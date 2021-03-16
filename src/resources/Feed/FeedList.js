@@ -10,7 +10,6 @@ import { useHistory } from "react-router";
 import { FeedCard } from '../../components/FeedCard';
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 
-
 const useStyles = createUseStyles(theme => ({
    emptyCard: {
       color: '#cbd5e0',

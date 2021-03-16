@@ -160,7 +160,7 @@ export function FeedEdit(props) {
                </Field>
 
                <div style={{ marginTop: '10px', display: 'flex' }}>
-                  <Button>Сохранить</Button>
+                  <Button type="submit">Сохранить</Button>
                   <Button variant="outlined" onClick={() => history.push('/')} style={{ marginLeft: '10px' }}>Отмена</Button>
                </div>
 
