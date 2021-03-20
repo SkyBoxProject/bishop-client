@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Layout } from '../layout/Layout';
 import { Label } from '../components/Label';
 import { Input } from '../components/Input';
@@ -6,12 +6,35 @@ import { Button } from '../components/Button';
 import { useAuth } from '../providers/AuthProvider';
 import { Form, Field } from 'react-final-form';
 import { config } from '../config';
+import { BiLoaderAlt } from "react-icons/bi";
+import { createUseStyles } from 'react-jss';
+
+const useStyles = createUseStyles(theme => ({
+   '@keyframes rotateCircular': {
+      from: {
+         transformOrigin: '50% 50%'
+      },
+      to: {
+         transform: 'rotate(360deg)'
+      }
+   },
+   circularProgress: {
+      fontSize: '16px',
+      animation: '$rotateCircular linear 1.4s infinite',
+   }
+}));
 
 export function Settings() {
    const auth = useAuth();
+   const classes = useStyles();
+   const [emailRequestLoading, setEmailLoading] = useState(false);
+   const [passRequestLoading, setPassLoading] = useState(false);
 
    const changeEmail = async (form) => {
+      if (emailRequestLoading) return;
+
       const token = await auth.getToken();
+      setEmailLoading(true);
       const response = await fetch(config.apiPath + 'user/change-email', {
          method: 'POST',
          headers: {
@@ -21,10 +44,14 @@ export function Settings() {
          body: JSON.stringify(form)
       });
       if (!response.ok) return;
+      setEmailLoading(false);
    }
 
    const changePassword = async (form) => {
+      if (passRequestLoading) return;
+
       const token = await auth.getToken();
+      setPassLoading(true);
       const response = await fetch(config.apiPath + 'user/change-password', {
          method: 'POST',
          headers: {
@@ -34,6 +61,7 @@ export function Settings() {
          body: JSON.stringify(form)
       });
       if (!response.ok) return;
+      setPassLoading(false);
    }
 
    return <Layout>
@@ -55,7 +83,7 @@ export function Settings() {
                   )}
                </Field>
 
-               <Button type="submit">Сменить почту</Button>
+               <Button type="submit">{emailRequestLoading ? <BiLoaderAlt className={classes.circularProgress} /> : 'Сменить почту'}</Button>
             </form>
          )}
       </Form>
@@ -95,7 +123,7 @@ export function Settings() {
                   )}
                </Field>
 
-               <Button type="submit">Сменить пароль</Button>
+               <Button type="submit">{passRequestLoading ? <BiLoaderAlt className={classes.circularProgress} /> : 'Сменить пароль'}</Button>
             </form>
          )}
       </Form>

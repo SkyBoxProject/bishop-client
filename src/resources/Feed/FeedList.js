@@ -9,6 +9,7 @@ import { LinearProgress } from '../../components/LinearProgress';
 import { useHistory } from "react-router";
 import { FeedCard } from '../../components/FeedCard';
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
+import { BiLoaderAlt } from "react-icons/bi";
 
 const useStyles = createUseStyles(theme => ({
    emptyCard: {
@@ -47,6 +48,18 @@ const useStyles = createUseStyles(theme => ({
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center'
+   },
+   '@keyframes rotateCircular': {
+      from: {
+         transformOrigin: '50% 50%'
+      },
+      to: {
+         transform: 'rotate(360deg)'
+      }
+   },
+   circularProgress: {
+      fontSize: '16px',
+      animation: '$rotateCircular linear 1.4s infinite',
    }
 }));
 
@@ -55,6 +68,7 @@ export function FeedList(props) {
    const [feedList, setFeedList] = useState(null);
    const classes = useStyles();
    const history = useHistory();
+   const [isLoading, setLoading] = useState(false);
 
    const getFeedList = async () => {
       const token = await auth.getToken();
@@ -90,12 +104,14 @@ export function FeedList(props) {
    }
 
    const convertFeed = async (id) => {
+      setLoading(true);
       const token = await auth.getToken();
       const response = await fetch(config.apiPath + `feed/${id}/convert`, {
          method: 'POST',
          headers: { 'authorization': `bearer ${token}` }
       });
       if (!response.ok) return;
+      setLoading(false);
 
       const blob = await response.blob();
       let file = new Blob([blob], { type: 'text/csv' });
@@ -124,7 +140,7 @@ export function FeedList(props) {
                <div className={classes.feedTitle}>{val.name}</div>
                <div className={classes.linkSubtitle}>{val.url}</div>
                <div className={classes.feedControls}>
-                  <Button onClick={() => convertFeed(val.id)}>Конвертация</Button>
+                  <Button onClick={() => isLoading ? null : convertFeed(val.id)}>{isLoading ? <BiLoaderAlt className={classes.circularProgress} /> : 'Конвертация'}</Button>
                   <div style={{ display: 'flex' }}>
                      <Button onClick={() => editFeed(val.id)} variant="outlined" style={{ padding: '12px' }}><FaRegEdit /></Button>
                      <Button onClick={() => deleteFeed(val.id)} variant="outlined" style={{ padding: '12px', marginLeft: '10px' }}><FaTrashAlt /></Button>
