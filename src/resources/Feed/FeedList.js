@@ -10,6 +10,7 @@ import { useHistory } from "react-router";
 import { FeedCard } from '../../components/FeedCard';
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 import { BiLoaderAlt } from "react-icons/bi";
+import { useToastContext, ADD } from "../../contexts/ToastContext";
 
 const useStyles = createUseStyles(theme => ({
    emptyCard: {
@@ -69,6 +70,7 @@ export function FeedList(props) {
    const classes = useStyles();
    const history = useHistory();
    const [isLoading, setLoading] = useState(false);
+   const { toastDispatch } = useToastContext();
 
    const getFeedList = async () => {
       const token = await auth.getToken();
@@ -111,6 +113,9 @@ export function FeedList(props) {
          headers: { 'authorization': `bearer ${token}` }
       });
       if (!response.ok) return;
+
+      toastDispatch({ type: ADD, payload: { content: { type: "info", message: 'Загрузка файла началась' } } });
+
       setLoading(false);
 
       const blob = await response.blob();

@@ -11,6 +11,7 @@ import { Bsod, useBsodCode } from './components/Bsod';
 import { useState } from "react";
 import { FeedList, FeedCreate, FeedEdit } from "./resources/Feed";
 import { FaExclamationCircle } from "react-icons/fa";
+import { ToastProvider } from "./contexts/ToastContext";
 
 function App() {
    const [isBsod, setBsod] = useState(false);
@@ -24,43 +25,45 @@ function App() {
    return (
       <AuthProvider>
          <ThemeProvider theme={theme}>
+            <ToastProvider>
 
-            {isBsod ? <Bsod /> : ''}
+               {isBsod ? <Bsod /> : ''}
 
-            <Router>
+               <Router>
 
-               <Switch>
-                  <Route exact path="/login">
-                     <LoginPage />
-                  </Route>
+                  <Switch>
+                     <Route exact path="/login">
+                        <LoginPage />
+                     </Route>
 
-                  <Route exact path="/registration">
-                     <RegistrationPage />
-                  </Route>
+                     <Route exact path="/registration">
+                        <RegistrationPage />
+                     </Route>
 
-                  <PrivateRoute exact path="/settings">
-                     <Settings />
-                  </PrivateRoute>
+                     <PrivateRoute exact path="/settings">
+                        <Settings />
+                     </PrivateRoute>
 
-                  <PrivateRoute exact path="/feed/create">
-                     <FeedCreate />
-                  </PrivateRoute>
+                     <PrivateRoute exact path="/feed/create">
+                        <FeedCreate />
+                     </PrivateRoute>
 
-                  <PrivateRoute exact path="/feed/:id">
-                     <FeedEdit />
-                  </PrivateRoute>
+                     <PrivateRoute exact path="/feed/:id">
+                        <FeedEdit />
+                     </PrivateRoute>
 
-                  <PrivateRoute exact path="/">
-                     <FeedList />
-                  </PrivateRoute>
+                     <PrivateRoute exact path="/">
+                        <FeedList />
+                     </PrivateRoute>
 
-                  <PrivateRoute path="*">
-                     <NoMatch />
-                  </PrivateRoute>
-               </Switch>
+                     <PrivateRoute path="*">
+                        <NoMatch />
+                     </PrivateRoute>
+                  </Switch>
 
-            </Router>
+               </Router>
 
+            </ToastProvider>
          </ThemeProvider>
       </AuthProvider>
    );

@@ -12,6 +12,8 @@ import { config } from '../../config';
 import { Form, Field } from 'react-final-form';
 import { useHistory, useParams } from "react-router";
 import { LinearProgress } from '../../components/LinearProgress';
+import { useToastContext, ADD } from "../../contexts/ToastContext";
+import { BiLoaderAlt } from "react-icons/bi";
 
 const useStyles = createUseStyles(theme => ({
    tooptipIcon: {
@@ -31,6 +33,18 @@ const useStyles = createUseStyles(theme => ({
       '&:after': {
          //borderRightColor: '#fff !important'
       }
+   },
+   '@keyframes rotateCircular': {
+      from: {
+         transformOrigin: '50% 50%'
+      },
+      to: {
+         transform: 'rotate(360deg)'
+      }
+   },
+   circularProgress: {
+      fontSize: '16px',
+      animation: '$rotateCircular linear 1.4s infinite',
    }
 }));
 
@@ -40,6 +54,8 @@ export function FeedEdit(props) {
    const history = useHistory();
    let { id } = useParams();
    const [currentFeed, setCurrentFeed] = useState(null);
+   const { toastDispatch } = useToastContext();
+   const [isLoading, setLoading] = useState(false);
 
    const getFeed = async () => {
       const token = await auth.getToken();
@@ -59,7 +75,9 @@ export function FeedEdit(props) {
    }, []);
 
    const feedEditHandler = async (form) => {
+      if (isLoading) return;
       const token = await auth.getToken();
+      setLoading(true);
       const response = await fetch(config.apiPath + `feed/${id}`, {
          method: 'PUT',
          headers: {
@@ -69,7 +87,8 @@ export function FeedEdit(props) {
          body: JSON.stringify(form)
       });
       if (!response.ok) return;
-
+      toastDispatch({ type: ADD, payload: { content: { type: "info", message: 'Изменения сохранены' } } });
+      setLoading(false);
       history.push('/');
    }
 
@@ -160,7 +179,7 @@ export function FeedEdit(props) {
                </Field>
 
                <div style={{ marginTop: '10px', display: 'flex' }}>
-                  <Button type="submit">Сохранить</Button>
+                  <Button type="submit">{isLoading ? <BiLoaderAlt className={classes.circularProgress} /> : 'Сохранить'}</Button>
                   <Button variant="outlined" onClick={() => history.push('/')} style={{ marginLeft: '10px' }}>Отмена</Button>
                </div>
 

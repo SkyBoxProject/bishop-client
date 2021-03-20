@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Layout } from '../layout/Layout';
 import { Label } from '../components/Label';
 import { Input } from '../components/Input';
@@ -8,6 +8,7 @@ import { Form, Field } from 'react-final-form';
 import { config } from '../config';
 import { BiLoaderAlt } from "react-icons/bi";
 import { createUseStyles } from 'react-jss';
+import { useToastContext, ADD } from "../contexts/ToastContext";
 
 const useStyles = createUseStyles(theme => ({
    '@keyframes rotateCircular': {
@@ -29,6 +30,7 @@ export function Settings() {
    const classes = useStyles();
    const [emailRequestLoading, setEmailLoading] = useState(false);
    const [passRequestLoading, setPassLoading] = useState(false);
+   const { toastDispatch } = useToastContext();
 
    const changeEmail = async (form) => {
       if (emailRequestLoading) return;
@@ -44,6 +46,8 @@ export function Settings() {
          body: JSON.stringify(form)
       });
       if (!response.ok) return;
+      const json = await response.json();
+      toastDispatch({ type: ADD, payload: { content: { type: "info", message: json.message } } });
       setEmailLoading(false);
    }
 
@@ -61,6 +65,8 @@ export function Settings() {
          body: JSON.stringify(form)
       });
       if (!response.ok) return;
+      const json = await response.json();
+      toastDispatch({ type: ADD, payload: { content: { type: "info", message: json.message } } });
       setPassLoading(false);
    }
 
@@ -87,7 +93,6 @@ export function Settings() {
             </form>
          )}
       </Form>
-
 
 
       <h3>Смена пароля учетной записи</h3>
