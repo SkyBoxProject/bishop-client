@@ -12,6 +12,7 @@ import { Alert } from '../components/Alert';
 import { CircularProgress } from '../components/CircularProgress';
 import { GradientOverlay } from '../components/GradientOverlay';
 import { Label } from '../components/Label';
+import { useThemeContext } from '../contexts/ThemeContext';
 
 const useStyles = createUseStyles(theme => ({
    '@keyframes slideLeft': {
@@ -32,23 +33,29 @@ const useStyles = createUseStyles(theme => ({
       justifyContent: 'center',
       alignItems: 'center',
       //original fill: #7F7BFB
-      background: `#f7fafc url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 200 200" xml:space="preserve" height="800px" width="800px"><g><path fill="%23C7D2FE" d="M41.3,-52.9C54.4,-47.3,66.6,-36.4,73.8,-22.1C81,-7.8,83.2,10,75.4,21.7C67.7,33.4,50.1,39.1,35.9,47.5C21.7,56,10.8,67.3,0,67.3C-10.8,67.3,-21.6,55.9,-35.7,47.4C-49.9,38.9,-67.3,33.2,-70,23.2C-72.7,13.1,-60.6,-1.3,-53.8,-15.9C-46.9,-30.5,-45.3,-45.3,-37.2,-52.5C-29.1,-59.7,-14.6,-59.4,-0.2,-59.1C14.1,-58.7,28.2,-58.5,41.3,-52.9Z" transform="translate(100 100) scale(1.21)" fill-rule="nonzero"/></g></svg>') 50% no-repeat`,
+      background: `${theme.background.default} url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 200 200" xml:space="preserve" height="800px" width="800px"><g><path fill="%23${theme.blob}" d="M41.3,-52.9C54.4,-47.3,66.6,-36.4,73.8,-22.1C81,-7.8,83.2,10,75.4,21.7C67.7,33.4,50.1,39.1,35.9,47.5C21.7,56,10.8,67.3,0,67.3C-10.8,67.3,-21.6,55.9,-35.7,47.4C-49.9,38.9,-67.3,33.2,-70,23.2C-72.7,13.1,-60.6,-1.3,-53.8,-15.9C-46.9,-30.5,-45.3,-45.3,-37.2,-52.5C-29.1,-59.7,-14.6,-59.4,-0.2,-59.1C14.1,-58.7,28.2,-58.5,41.3,-52.9Z" transform="translate(100 100) scale(1.21)" fill-rule="nonzero"/></g></svg>') 50% no-repeat`,
    },
    loginCard: {
       animation: '$slideLeft ease-in 0.3s',
       boxShadow: '0 2px 20px 3px rgb(0 0 0 / 6%)',
-      background: '#fff',
+      background: theme.background.paper,
+      color: theme.text.primary,
       width: '410px',
       padding: '2rem',
       position: 'relative'
    },
    forgotPassLink: {
-      color: '#2b3044',
+      color: theme.text.activeLink,
       textDecoration: 'none',
       fontSize: '0.9em',
       '&:hover': {
          textDecoration: 'underline'
       }
+   },
+   cardHeader: {
+      color: theme.text.activeLink,
+      fontWeight: 600,
+      fontSize: '1.6em'
    }
 }));
 
@@ -58,6 +65,7 @@ export function LoginPage(props) {
    const history = useHistory();
    const [isLoading, setLoading] = useState(false);
    const [isLoginError, setLoginError] = useState(false);
+   const {toggleTheme} = useThemeContext();
 
    const redirectToRegistration = () => {
       history.push('/registration');
@@ -86,6 +94,7 @@ export function LoginPage(props) {
 
    if (auth.authStatus === 'AUTH_AUTHORIZED') return <Redirect to="/" />
    return <div className={classes.wrapper}>
+      <button onClick={() => toggleTheme()}>Toggle</button>
       <div className={classes.loginCard}>
 
          {isLoading ? <GradientOverlay><CircularProgress /></GradientOverlay> : ''}
@@ -95,7 +104,7 @@ export function LoginPage(props) {
             <span>Bishop converter</span>
          </div>
 
-         <h1 style={{ fontWeight: 600, fontSize: '1.6em', color: '#2B3044' }}>Вход в сервис</h1>
+         <h1 className={classes.cardHeader}>Вход в сервис</h1>
 
          <Form onSubmit={loginSubmitHandler}>
             {formProps => (

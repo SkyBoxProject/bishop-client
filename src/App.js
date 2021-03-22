@@ -12,6 +12,7 @@ import { useState } from "react";
 import { FeedList, FeedCreate, FeedEdit } from "./resources/Feed";
 import { FaExclamationCircle } from "react-icons/fa";
 import { ToastProvider } from "./contexts/ToastContext";
+import { CustomThemeProvider } from './contexts/ThemeContext';
 
 function App() {
    const [isBsod, setBsod] = useState(false);
@@ -24,7 +25,7 @@ function App() {
 
    return (
       <AuthProvider>
-         <ThemeProvider theme={theme}>
+         <CustomThemeProvider>
             <ToastProvider>
 
                {isBsod ? <Bsod /> : ''}
@@ -64,7 +65,7 @@ function App() {
                </Router>
 
             </ToastProvider>
-         </ThemeProvider>
+         </CustomThemeProvider>
       </AuthProvider>
    );
 }

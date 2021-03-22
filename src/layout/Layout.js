@@ -6,10 +6,11 @@ import { FaChessBishop } from "react-icons/fa";
 import { SideMenu } from './SideMenu';
 import { Button } from '../components/Button';
 import { PlaceholderBox } from "../components/PlaceholderBox";
+import { useThemeContext } from '../contexts/ThemeContext';
 
 const useStyles = createUseStyles(theme => ({
    layout: {
-      background: '#f7fafc',
+      background: theme.background.default,
       minWidth: '100vw',
       minHeight: '100vh',
       overflow: 'auto'
@@ -23,15 +24,17 @@ const useStyles = createUseStyles(theme => ({
       width: '100%'
    },
    headerPanel: {
-      background: '#fff',
+      background: theme.background.paper,
+      color: theme.text.primary,
       height: '60px',
       boxShadow: '0px 2px 5px 0px rgb(0 0 0 / 20%)',
    },
    contentWrapper: {
       boxShadow: '0 2px 20px 3px rgb(0 0 0 / 6%)',
-      background: '#fff',
+      background: theme.background.paper,
+      color: theme.text.primary,
       padding: '30px',
-      flexGrow: 2
+      flexGrow: 2,
    },
    container: {
       minWidth: theme.sizes.container,
@@ -55,6 +58,7 @@ const useStyles = createUseStyles(theme => ({
 export function Layout(props) {
    const classes = useStyles();
    const auth = useAuth();
+   const {toggleTheme} = useThemeContext();
 
    return <div className={classes.layout}>
 
@@ -70,6 +74,7 @@ export function Layout(props) {
 
 
             <div className="headerRightBar" style={{ display: 'flex', alignItems: 'center' }}>
+               <button onClick={() => toggleTheme()}>Toggle</button>
                <span style={{ fontWeight: 500 }}>{auth.userInfo ? auth.userInfo.email.split('@')[0] : <PlaceholderBox />}</span>
                <Button variant="outlined" style={{ marginLeft: '15px' }} onClick={() => auth.logout()}>Выйти</Button>
             </div>
