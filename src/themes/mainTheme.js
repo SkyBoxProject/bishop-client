@@ -30,6 +30,10 @@ export const lightTheme = {
       primary: '#e2e2e2',
       input: '#e2e8f0'
    },
+   progress: {
+      linear: '#e6fffa',
+      linearBar: '#bde8e0'
+   },
    text: {
       primary: '#000',
       link: '#718096',
@@ -60,6 +64,10 @@ export const darkTheme = {
    border: {
       primary: '#43454e',
       input: '#505261'
+   },
+   progress: {
+      linear: '#588e83',
+      linearBar: '#32695f'
    },
    text: {
       primary: '#fff',
