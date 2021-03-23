@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Layout } from '../layout/Layout';
 import { Label } from '../components/Label';
 import { Input } from '../components/Input';
@@ -70,7 +70,7 @@ export function Settings() {
       setPassLoading(false);
    }
 
-   return <Layout>
+   return <Fragment>
       <h2>Настройки</h2>
 
       <h3>Смена электронной почты</h3>
@@ -133,6 +133,6 @@ export function Settings() {
          )}
       </Form>
 
-   </Layout>;
+   </Fragment>;
 }
 export default Settings;

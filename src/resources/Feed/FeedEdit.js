@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Layout } from '../../layout/Layout';
 import { Input } from '../../components/Input';
 import { Label } from '../../components/Label';
@@ -92,7 +92,7 @@ export function FeedEdit(props) {
       history.push('/');
    }
 
-   return <Layout>
+   return <Fragment>
       <h2>Редактирование фида {currentFeed ? `«${currentFeed.name}»` : '...'}</h2>
 
       <ReactTooltip place='right' className={classes.tooltip} effect='solid' />
@@ -187,6 +187,6 @@ export function FeedEdit(props) {
          )}
       </Form> : <LinearProgress />}
 
-   </Layout>
+   </Fragment>
 }
 export default FeedEdit;

@@ -124,7 +124,7 @@ export function FeedList(props) {
       download_csv(objectURL);
    }
 
-   return <Layout>
+   return <Fragment>
       <h2>Список фидов</h2>
 
       {feedList && feedList.length ? <div><Button color="green" onClick={() => history.push('/feed/create')} style={{ margin: '20px 0px' }}>Создать новый</Button></div> : ''}
@@ -156,6 +156,6 @@ export function FeedList(props) {
 
       </div> : <LinearProgress />}
 
-   </Layout>
+   </Fragment>
 }
 export default FeedList;

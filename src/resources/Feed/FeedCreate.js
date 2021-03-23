@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Layout } from '../../layout/Layout';
 import { Input } from '../../components/Input';
 import { Label } from '../../components/Label';
@@ -53,7 +53,7 @@ export function FeedCreate(props) {
       history.push('/');
    }
 
-   return <Layout>
+   return <Fragment>
       <h2>Создание нового фида</h2>
 
       <ReactTooltip place='right' className={classes.tooltip} effect='solid' />
@@ -146,6 +146,6 @@ export function FeedCreate(props) {
          )}
       </Form>
 
-   </Layout>
+   </Fragment>
 }
 export default FeedCreate;
