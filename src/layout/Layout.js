@@ -7,6 +7,7 @@ import { SideMenu } from './SideMenu';
 import { Button } from '../components/Button';
 import { PlaceholderBox } from "../components/PlaceholderBox";
 import { useThemeContext } from '../contexts/ThemeContext';
+import { ToggleThemeButton } from '../components/ToggleThemeButton';
 
 const useStyles = createUseStyles(theme => ({
    layout: {
@@ -58,7 +59,7 @@ const useStyles = createUseStyles(theme => ({
 export function Layout(props) {
    const classes = useStyles();
    const auth = useAuth();
-   const {toggleTheme} = useThemeContext();
+   const { toggleTheme } = useThemeContext();
 
    return <div className={classes.layout}>
 
@@ -74,8 +75,8 @@ export function Layout(props) {
 
 
             <div className="headerRightBar" style={{ display: 'flex', alignItems: 'center' }}>
-               <button onClick={() => toggleTheme()}>Toggle</button>
                <span style={{ fontWeight: 500 }}>{auth.userInfo ? auth.userInfo.email.split('@')[0] : <PlaceholderBox />}</span>
+               <ToggleThemeButton />
                <Button variant="outlined" style={{ marginLeft: '15px' }} onClick={() => auth.logout()}>Выйти</Button>
             </div>
          </div>

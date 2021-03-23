@@ -13,6 +13,7 @@ import { CircularProgress } from '../components/CircularProgress';
 import { GradientOverlay } from '../components/GradientOverlay';
 import { Label } from '../components/Label';
 import { useThemeContext } from '../contexts/ThemeContext';
+import { ToggleThemeButton } from '../components/ToggleThemeButton';
 
 const useStyles = createUseStyles(theme => ({
    '@keyframes slideLeft': {
@@ -65,7 +66,7 @@ export function LoginPage(props) {
    const history = useHistory();
    const [isLoading, setLoading] = useState(false);
    const [isLoginError, setLoginError] = useState(false);
-   const {toggleTheme} = useThemeContext();
+   const { toggleTheme } = useThemeContext();
 
    const redirectToRegistration = () => {
       history.push('/registration');
@@ -94,7 +95,7 @@ export function LoginPage(props) {
 
    if (auth.authStatus === 'AUTH_AUTHORIZED') return <Redirect to="/" />
    return <div className={classes.wrapper}>
-      <button onClick={() => toggleTheme()}>Toggle</button>
+      <div style={{position: 'absolute', top: '10px', right: '20px'}}><ToggleThemeButton size={'2.2em'} /></div>
       <div className={classes.loginCard}>
 
          {isLoading ? <GradientOverlay><CircularProgress /></GradientOverlay> : ''}

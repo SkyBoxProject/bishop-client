@@ -13,6 +13,7 @@ import { Redirect } from "react-router-dom";
 import { CircularProgress } from '../components/CircularProgress';
 import { GradientOverlay } from '../components/GradientOverlay';
 import { Label } from '../components/Label';
+import { ToggleThemeButton } from '../components/ToggleThemeButton';
 
 const useStyles = createUseStyles(theme => ({
    '@keyframes slideRight': {
@@ -92,6 +93,7 @@ export function RegistrationPage(props) {
 
    if (auth.authStatus === 'AUTH_AUTHORIZED') return <Redirect to="/" />
    return <div className={classes.wrapper}>
+      <div style={{ position: 'absolute', top: '10px', right: '20px' }}><ToggleThemeButton size={'2.2em'} /></div>
       <div className={classes.loginCard}>
 
          {isLoading ? <GradientOverlay><CircularProgress /></GradientOverlay> : ''}
