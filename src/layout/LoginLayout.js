@@ -25,7 +25,7 @@ export function LoginLayout(props) {
 
    return <div className={classes.loginLayout}>
       <div className={classes.rightAngleAction}>
-         <ToggleThemeButton size={'2.2em'} />
+         <ToggleThemeButton size={'2.2em'} transparent />
       </div>
       {props.children}
    </div>

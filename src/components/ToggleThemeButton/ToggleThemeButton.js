@@ -9,12 +9,19 @@ const useStyles = createUseStyles(theme => ({
       border: 'none',
       padding: '5px',
       cursor: 'pointer',
-      marginLeft: '10px',
+      marginLeft: '15px',
       fontSize: (props) => props.size ? props.size : '1.5em',
       display: 'flex',
       borderRadius: '25px',
       color: theme.text.outlinedButton,
-      background: 'transparent',
+      background: (props) => {
+         if (props.transparent) return 'transparent';
+        return theme.type === 'light' ? '#4d515d' : '#f2f3f5'
+      },
+      color: (props) => {
+         if (props.transparent) return theme.text.activeLink;
+        return theme.type === 'light' ? '#fff' : '#000'
+      },
       outline: 'none'
    },
    '@keyframes roundIn': {

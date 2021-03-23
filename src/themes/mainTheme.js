@@ -15,6 +15,7 @@ export const mainTheme = {
 //active link #2b3044
 export const lightTheme = {
    ...mainTheme,
+   type: 'light',
    background: {
       default: '#f7fafc',
       paper: '#fff',
@@ -41,6 +42,7 @@ export const lightTheme = {
 
 export const darkTheme = {
    ...mainTheme,
+   type: 'dark',
    background: {
       //был #1f1d2b
       //#1e1c25
