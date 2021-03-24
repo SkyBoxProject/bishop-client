@@ -59,7 +59,6 @@ const useStyles = createUseStyles(theme => ({
 export function Layout(props) {
    const classes = useStyles();
    const auth = useAuth();
-   const { toggleTheme } = useThemeContext();
 
    return <div className={classes.layout}>
 

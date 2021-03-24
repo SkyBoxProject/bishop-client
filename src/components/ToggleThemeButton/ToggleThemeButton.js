@@ -22,7 +22,11 @@ const useStyles = createUseStyles(theme => ({
          if (props.transparent) return theme.text.activeLink;
         return theme.type === 'light' ? '#fff' : '#000'
       },
-      outline: 'none'
+      outline: 'none',
+      '&:hover': {
+         transition: 'transform 0.2s',
+         transform: 'scale(1) rotate(0.1turn)',
+      },
    },
    '@keyframes roundIn': {
       from: {
@@ -36,10 +40,6 @@ const useStyles = createUseStyles(theme => ({
    },
    themeIcon: {
       animation: '$roundIn ease-in 0.4s',
-      '&:hover': {
-         transition: 'transform 0.2s',
-         transform: 'scale(1) rotate(0.1turn)',
-      },
    }
 }));
 
