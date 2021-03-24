@@ -141,7 +141,7 @@ export function FeedList(props) {
          </div> : ''}
 
          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-            {feedList.map(val => <FeedCard>
+            {feedList.map(val => <FeedCard key={val.id}>
                <div className={classes.feedTitle}>{val.name}</div>
                <div className={classes.linkSubtitle}>{val.url}</div>
                <div className={classes.feedControls}>
