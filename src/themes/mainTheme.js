@@ -41,6 +41,10 @@ export const lightTheme = {
       outlinedButton: '#4c4f52',
       input: '#4a5568',
    },
+   snackbar: {
+      background: '#323232',
+      text: '#fff'
+   },
    blob: 'C7D2FE'
 }
 
@@ -75,6 +79,10 @@ export const darkTheme = {
       activeLink: '#9b9fb1',
       outlinedButton: '#fff',
       input: '#cccede',
+   },
+   snackbar: {
+      background: '#fff',
+      text: '#000'
    },
    blob: '6373b3'
    //blob: '4c5c9e'
