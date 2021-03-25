@@ -189,16 +189,16 @@ export function PrivateRoute({ children, ...rest }) {
          render={({ location }) =>
             <Layout>
                {auth.authStatus === AUTH_AUTHORIZED ? (
-               children
+                  children
                ) : (
-               location.pathname !== '/login' ?
-                  <Redirect
-                  to={{
-                     pathname: "/login",
-                     state: { from: location }
-                  }}
-               /> : ''
-            )}
+                  location.pathname !== '/login' ?
+                     <Redirect
+                        to={{
+                           pathname: "/login",
+                           state: { from: location }
+                        }}
+                     /> : ''
+               )}
             </Layout>
          }
       />

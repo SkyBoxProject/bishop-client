@@ -38,11 +38,11 @@ export function Snackbar(props) {
    const classes = useStyles();
    const duration = props.duration || 3000;
 
-   useEffect(()=>{
-      setTimeout(()=>{
-        props.toastDispatch({ type: REMOVE, payload: { id: props.id } })
+   useEffect(() => {
+      setTimeout(() => {
+         props.toastDispatch({ type: REMOVE, payload: { id: props.id } })
       }, duration);
-    });
+   });
 
    return <div key={props.id} onClick={props.onClick} className={classes.snackbar}>
       {props.message}
